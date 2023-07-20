@@ -75,15 +75,20 @@ function initCourse() {
 	//courseData = JSON.parse();
 }
 
+var downloadFileName = ""; // hack.
+
 function triggerDownload(fileName) {
+	// build url to home server downloads folder, with 
 	console.log("triggerDownload");
 	window.open(fileName);
 }
 
+window.triggerDownload = triggerDownload;
+
 function initDownload() {
 	console.log("initDownload");
 	downloadButton = document.getElementById("DownloadButton");      
-	downloadButton.addEventListener("click", triggerDownload);
+	downloadButton.addEventListener("click", window.triggerDownload);
 }
 
     
@@ -98,5 +103,5 @@ function init() {
 
 console.log("External module running\n");
 
-//init();
+init();
 
