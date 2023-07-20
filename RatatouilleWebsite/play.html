@@ -1,0 +1,43 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Not a recipe</title>
+
+    <script type="text/javascript">
+    </script>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+</head>
+
+<body onload="initialize();">
+
+  <script type="text/javascript">
+  console.log("Script running\n")
+
+
+    function onendedHandler(event) {
+      console.log("onendedHandler\n")
+      window.location = "play2.html"
+    };
+
+    function initialize() {
+      console.log("initialize")
+      videoFrame = document.getElementById("mainVideoFrame");
+      videoFrame.addEventListener("ended",onendedHandler);
+      //  addEventListener("ended", (event) => {});
+    };
+  </script>
+
+  <video src="shortTestVideo.m4v"
+    id="mainVideoFrame"
+    autoplay="true"
+    muted="false"
+    onended="onendedHandler"
+    />
+
+  </body>
+  </html>
