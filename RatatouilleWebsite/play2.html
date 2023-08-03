@@ -8,31 +8,32 @@
 
 <body>
 	
-<!-- 
-  <video src="shortTestVideo.m4v"
-    id="mainVideoFrame"
-    controls="true"
-    muted="false"
-  />
- -->
-  
+  <div>
+	  <video src="./shortTestVideo.m4v"
+		id="mainVideoFrame"
+		controls="true"
+		muted="false"
+	  />
+  </div>
  
 	<!-- Download button! -->
-	<button type="submit" onclick="window.triggerDownload('Agile.pdf')">Download PDF</button>
-	
-	<script async type="text/javascript" src="./coursewareUtilities.js">
-		<!-- 	Though the contents are empty, using a single line terminated by “/>” 
-		prevents loading the javascript. -->
-	</script>
-
+  <div>
+		<button type="submit" onclick="window.triggerDownload('Agile.pdf')">Download PDF</button>
+  </div>
 <!-- 
+	<script async type="text/javascript" src="./coursewareUtilities.js">
+		<!~~ 	Though the contents are empty, using a single line terminated by “/>” 
+		prevents loading the javascript. ~~>
+	</script>
+ -->
+
   <script defer type="text/javascript">  	
   
   	console.log("Playing video from script");
   	video = document.getElementById("mainVideoFrame");
-//  	video.play();
+  	video.play();
   </script>
- -->
+
 
 </body>
 </html>
