@@ -6,37 +6,64 @@
 
   <title>Not a recipe</title>
 
-    <script type="text/javascript">
-    </script>
-    <style type="text/css">
-      canvas { border: 1px solid black; }
-    </style>
+	<script type="text/javascript">
+	</script>
+	<style type="text/css">
+		canvas { border: 1px solid black; }
+	</style>
 </head>
 
 <body onload="initialize();">
 
+	<div id="contentDiv">
+		<video src="./shortTestVideo.m4v"
+			id="mainVideoFrame"
+			controls="true"
+			autoplay = "true"
+		  />
+	</div>
+
   <script type="text/javascript">
-  console.log("Script running\n")
+	console.log("Script running\n")
 
 
-    function onendedHandler(event) {
-      console.log("onendedHandler\n")
-      window.location = "play2.html"
-    };
+	function onendedHandler(event) {
+		console.log("onendedHandler\n");
+		videoFrame = document.getElementById("mainVideoFrame");
+		videoFrame.setAttribute("src", "moovIT.m4v");
+		videoFrame.play();
+		
+		//window.location = "play2.html"
+	};
 
-    function initialize() {
-      console.log("initialize")
-      videoFrame = document.getElementById("mainVideoFrame");
-      videoFrame.addEventListener("ended",onendedHandler);
-    };
+	function initialize() {
+		console.log("initialize");
+		
+		//read REST parameters
+		const queryString = window.location.search;
+		console.log(queryString);
+		const urlParms = new URLSearchParams(queryString);
+		const videoFile = urlParms.get("video");
+		console.log(videoFile);
+
+	  
+	  	// add video ended handler to the video frame
+		videoFrame = document.getElementById("mainVideoFrame");
+		videoFrame.addEventListener("ended", onendedHandler);
+	};
+	
+	function playVideo() {
+		videoElement = document.getElementById("mainVideoFrame");
+		videoElement.setAttribute("onended", "onendedHandler");
+
+		videoElement.play();
+	};
+	
   </script>
-
-  <video src="shortTestVideo.m4v"
-    id="mainVideoFrame"
-    autoplay="true"
-    muted="false"
-    onended="onendedHandler"
-    />
+    
+	<div id="playPauseButtons">
+		<button id= "playButton" type="button" onclick="playVideo()">Play</button>
+	</div>
 
   </body>
   </html>
