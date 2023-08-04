@@ -17,82 +17,102 @@
 <body onload="initialize();">
 
 	<div id="contentDiv">
-		<video src="./shortTestVideo.m4v"
+		<video
 			id="mainVideoFrame"
 			controls="true"
 			autoplay = "true"
 		  />
 	</div>
 
-  <script type="text/javascript">
-  	
-	var videoList;
+  	<script type="text/javascript">
+  		"use strict";
 	
+		{
+			var videoList = null;
+			var currentVideoIndex = 0;
+		}
 	
-	function readVideoList() {
-		var url = "./videoList.json";
+		function readVideoList() {
+			let url = "./videoList.json";
 
-		var jsonFile = new XMLHttpRequest();
-		jsonFile.open("GET",url,true);
-		jsonFile.send();
+			let jsonFile = new XMLHttpRequest();
+			jsonFile.open("GET", url, true);
+			jsonFile.send();
 	
-		var jsonVideoList;
+			var jsonVideoList = null;
 
-		jsonFile.onreadystatechange = function() {
-			if (jsonFile.readyState== 4 && jsonFile.status == 200) {
-				jsonVideoList = jsonFile.responseText;
-				console.log("JSON video list\n");
-				console.log(jsonVideoList);
-				videoList = JSON.parse(jsonVideoList);
-				console.log(videoList);
+			jsonFile.onreadystatechange = function() {
+				if (jsonFile.readyState== 4 && jsonFile.status == 200) {
+					jsonVideoList = jsonFile.responseText;
+					console.log("JSON video list\n");
+					console.log(jsonVideoList);
+					videoList = JSON.parse(jsonVideoList);
+					var videoArray = videoList.videoList;
+					
+					
+					console.log(JSON.stringify(videoArray));
+					console.log("video list parsed from file \n");
+					console.dir(videoList);
+				
+					playNextVideo();
+				}
 			}
 		}
-	}
 	
-
-
-	function onendedHandler(event) {
-		console.log("onendedHandler\n");
-		videoFrame = document.getElementById("mainVideoFrame");
-		videoFrame.setAttribute("src", "moovIT.m4v");
-		videoFrame.play();
+		function goToNextScreen() {}
 		
-		//window.location = "play2.html"
-	};
+		function playNextVideo() {
+			console.log("playNextVideo\n");
+			
+			// find next video to play		
+			console.log("video index:" + currentVideoIndex);
 
-	function initialize() {
-		console.log("initialize");
+			let videoFileName = videoList.videoList[currentVideoIndex].fileName;
 		
-	// 	$.getJSON("videoList.json", function(json) {
-//     	console.log(json); // this will show the info it in firebug console
-// 		});
-// 		
-// 		JSON.parse(text);
-
-		// read video list
-		readVideoList();
+			console.log("next video file:" + videoFileName);
 		
-		//read REST parameters
-		const queryString = window.location.search;
-		console.log(queryString);
-		const urlParms = new URLSearchParams(queryString);
-		const videoFile = urlParms.get("video");
-		console.log(videoFile);
+			let videoFrame = document.getElementById("mainVideoFrame");
+			videoFrame.setAttribute("src", videoFileName);
+			//videoFrame.play();	
+		}
 
+		function onendedHandler(event) {
+			console.log("onendedHandler\n");
+		
+			currentVideoIndex++;
+
+			if (currentVideoIndex >= videoList.videoList.length) {
+				goToNextScreen();
+			} else {
+				playNextVideo();
+			}
+			//window.location = "play2.html"
+		};
+
+		function initialize() {
+			console.log("initialize");
+		
+			// read video list
+			readVideoList();
+		
+			//read REST parameters
+	// 		const queryString = window.location.search;
+	// 		console.log(queryString);
+	// 		const urlParms = new URLSearchParams(queryString);
+	// 		const videoFile = urlParms.get("video");
+	// 		console.log(videoFile);
 	  
-	  	// add video ended handler to the video frame
-		videoFrame = document.getElementById("mainVideoFrame");
-		videoFrame.addEventListener("ended", onendedHandler);
-	};
+			// add video ended handler to the video frame
+			let videoFrame = document.getElementById("mainVideoFrame");
+			videoFrame.addEventListener("ended", onendedHandler);
+		};
 	
-	function playVideo() {
-		videoElement = document.getElementById("mainVideoFrame");
-		videoElement.setAttribute("onended", "onendedHandler");
-
-		videoElement.play();
-	};
+		function playVideo() {
+ 			let videoElement = document.getElementById("mainVideoFrame");
+			videoElement.play();
+		};
 	
-  </script>
+	</script>
     
 	<div id="playPauseButtons">
 		<button id= "playButton" type="button" onclick="playVideo()">Play</button>
