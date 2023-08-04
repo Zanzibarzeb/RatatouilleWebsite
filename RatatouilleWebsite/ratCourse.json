@@ -1,0 +1,16 @@
+{
+	"title":"Ratatouille",
+	"stages":[
+		{"stageName": "initialVideos", "stageType":"video",
+		"videoList":[
+			{"fileName":"shortTestVideo.m4v", "allowContols":"false" },
+			{"fileName":"shortTestVideo.m4v", "allowContols":"false" }
+			]
+		},
+		{"stageName": "subsequentVideos", "stageType":"video",
+		"videoList":[
+			{"fileName":"moovIT.m4v", "allowContols":"false" }
+			]
+		}
+	]
+}
