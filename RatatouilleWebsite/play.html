@@ -31,35 +31,28 @@
 			var videoList = null;
 			var currentVideoIndex = 0;
 		}
-	
-		function readVideoList() {
+			
+		async function readVideoList() {
 			let url = "./videoList.json";
-
-			let jsonFile = new XMLHttpRequest();
-			jsonFile.open("GET", url, true);
-			jsonFile.send();
+			
+			let response = await fetch(url);
 	
-			var jsonVideoList = null;
-
-			jsonFile.onreadystatechange = function() {
-				if (jsonFile.readyState== 4 && jsonFile.status == 200) {
-					jsonVideoList = jsonFile.responseText;
-					console.log("JSON video list\n");
-					console.log(jsonVideoList);
-					videoList = JSON.parse(jsonVideoList);
-					var videoArray = videoList.videoList;
-					
-					
-					console.log(JSON.stringify(videoArray));
-					console.log("video list parsed from file \n");
-					console.dir(videoList);
-				
-					playNextVideo();
-				}
+			if (response.ok) { // if HTTP-status is 200-299
+				videoList = await response.json();
+			} else {
+				alert("HTTP Error: " + response.status);
 			}
+			
+			console.log("JSON from config file:\n");
+			console.log(videoList);
+			
+			playNextVideo();
 		}
 	
-		function goToNextScreen() {}
+		function goToNextScreen() {
+			console.log("goToNextScreen\n");
+			window.location = "play2.html";
+		}
 		
 		function playNextVideo() {
 			console.log("playNextVideo\n");
@@ -73,7 +66,6 @@
 		
 			let videoFrame = document.getElementById("mainVideoFrame");
 			videoFrame.setAttribute("src", videoFileName);
-			//videoFrame.play();	
 		}
 
 		function onendedHandler(event) {
@@ -86,7 +78,6 @@
 			} else {
 				playNextVideo();
 			}
-			//window.location = "play2.html"
 		};
 
 		function initialize() {
