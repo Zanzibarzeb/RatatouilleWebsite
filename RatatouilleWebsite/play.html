@@ -2,10 +2,11 @@
 
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+	<meta charset="utf-8">
 
-  <title>Not a recipe</title>
-
+	<title>Not a recipe</title>
+	<link rel="icon" href="./assets/EvenSmallerLogo.png">
+	
 	<script type="text/javascript">
 	</script>
 	<style type="text/css">
@@ -24,7 +25,30 @@
 	</div>
 
   <script type="text/javascript">
-	console.log("Script running\n")
+  	
+	var videoList;
+	
+	
+	function readVideoList() {
+		var url = "./videoList.json";
+
+		var jsonFile = new XMLHttpRequest();
+		jsonFile.open("GET",url,true);
+		jsonFile.send();
+	
+		var jsonVideoList;
+
+		jsonFile.onreadystatechange = function() {
+			if (jsonFile.readyState== 4 && jsonFile.status == 200) {
+				jsonVideoList = jsonFile.responseText;
+				console.log("JSON video list\n");
+				console.log(jsonVideoList);
+				videoList = JSON.parse(jsonVideoList);
+				console.log(videoList);
+			}
+		}
+	}
+	
 
 
 	function onendedHandler(event) {
@@ -38,6 +62,15 @@
 
 	function initialize() {
 		console.log("initialize");
+		
+	// 	$.getJSON("videoList.json", function(json) {
+//     	console.log(json); // this will show the info it in firebug console
+// 		});
+// 		
+// 		JSON.parse(text);
+
+		// read video list
+		readVideoList();
 		
 		//read REST parameters
 		const queryString = window.location.search;
