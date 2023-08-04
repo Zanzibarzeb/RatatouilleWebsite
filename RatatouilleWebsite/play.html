@@ -30,17 +30,20 @@
 		{
 			var videoList = null;
 			var currentVideoIndex = 0;
+			var stageNumber;
+			var courseConfig;
 		}
 			
-		async function readVideoList() {
+		async function readConfig(fileName) {
+		
 			let url = "./videoList.json";
 			
 			let response = await fetch(url);
 	
 			if (response.ok) { // if HTTP-status is 200-299
-				videoList = await response.json();
+				courseConfig = await response.json();
 			} else {
-				alert("HTTP Error: " + response.status);
+				alert("HTTP Error while retrieving the course configuration.\n" + response.status);
 			}
 			
 			console.log("JSON from config file:\n");
@@ -86,12 +89,13 @@
 			// read video list
 			readVideoList();
 		
-			//read REST parameters
-	// 		const queryString = window.location.search;
-	// 		console.log(queryString);
-	// 		const urlParms = new URLSearchParams(queryString);
-	// 		const videoFile = urlParms.get("video");
-	// 		console.log(videoFile);
+			// read REST parameters
+			const queryString = window.location.search;
+			const urlParms = new URLSearchParams(queryString);
+			
+			// read course config file name and stage to execute
+			const configFileName = urlParms.get("config");
+			stageNumber = urlParms.get("stage");
 	  
 			// add video ended handler to the video frame
 			let videoFrame = document.getElementById("mainVideoFrame");
