@@ -7,10 +7,8 @@
 			{"fileName":"shortTestVideo.m4v", "allowContols":"false" }
 			]
 		},
-		{"stageName": "subsequentVideos", "stageType":"video",
-		"videoList":[
-			{"fileName":"moovIT.m4v", "allowContols":"false" }
-			]
+		{"stageName": "Test test", "stageType":"test",
+		"testFile":"testTest.json"
 		}
 	]
 }
