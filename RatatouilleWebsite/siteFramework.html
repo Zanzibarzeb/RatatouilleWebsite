@@ -1,0 +1,115 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<title>Not a recipe</title>
+	<link rel="icon" href="./assets/EvenSmallerLogo.png">
+	
+	<script type="text/javascript">
+	</script>
+	<style type="text/css">
+		
+		.grid-container {
+			display: grid;
+			justify-content: start;
+			grid-template-rows: 15% 78% auto;
+			grid-template-columns: 20% 78% auto;
+			grid-gap: 5px;
+			width: 100%;
+			height: 100vh;
+			background-color: white;
+		}
+		.grid-item {
+			border: 3px;
+			border-color: black;
+		}
+/* 
+		.grid-item-contents img {
+			height:100%;
+			width:100%
+		}
+ */
+	</style>
+</head>
+
+<body onload="initialize();">
+
+	<div id="contentDiv" class="grid-container">
+		<div class='grid-item'
+			style='grid-column:1; grid-row:1'>
+			<image class="grid-item-contents"
+				style='height:100%; width:100%; object-fit:contain'
+				src="./assets/Logo.png"/>
+		</div>
+		<div class='grid-item'
+			id='header'
+			style='grid-column:2; grid-row:1; background-color: red'>
+		</div>
+		<div class='grid-item'
+			id='sideBar'
+			style='grid-column:1; grid-row:2; min-width=200; clip-path:inset(0);'>
+<!-- 
+			<embed type="text/html" src="treeView.html"
+ -->
+		</div>
+		<div class='grid-item'
+			id='contentArea'
+			style='grid-column:2; grid-row:2; background-color: green'>
+		</div>
+<!-- 
+		<image src="./assets/OrangeField.png">
+		<image src="./assets/Logo.png"/>
+		<image src="./assets/OrangeField.png">
+ -->
+
+	</div>
+
+  	<script type="text/javascript">
+  		"use strict";
+	
+// 		async function readSideBarHTML() {
+// 			console.log("readSideBarHTML");
+// 		
+// 			let url = "./treeView.html";
+// 			
+// 			let response = await fetch(url);
+// 			console.log(response);
+// 	
+// 			if (response.ok) { // if HTTP-status is 200-299
+// 				courseConfig = await response.json();
+// 			} else {
+// 				alert("HTTP Error while retrieving the treeView.\n" + response.status);
+// 			}
+// 						
+// 			// find the file name for this test
+// 			fileName = courseConfig.stages[stageNumber].testFile;
+// 			console.log("test file name: " + fileName);
+// 			readTestQuestions(fileName);
+// 			
+// 			let sideBar = document.getElementById("sidebar");
+// 		}
+					
+		function initialize() {
+			console.log("initialize");
+			
+// 			readSideBarHTML();
+// 		
+// 			// read REST parameters
+// 			const queryString = window.location.search;
+// 			const urlParms = new URLSearchParams(queryString);
+// 			
+// 			// read course config file name and stage to execute
+// 			const configFileName = urlParms.get("config");
+// 			console.log("configFileName: "+configFileName);
+// 			stageNumber = urlParms.get("stage");
+// 			
+// 			// read the course configuration
+// 			readConfig(configFileName);			
+		};
+		
+	</script>
+    
+  </body>
+  </html>
