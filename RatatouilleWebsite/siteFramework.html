@@ -9,6 +9,14 @@
 	
 	<script type="text/javascript">
 	</script>
+
+	<style src="./testRunner.css">
+	</style>
+
+	<link rel="stylesheet" type="text/css" href="./testRunner.css">
+	
+	<link rel="stylesheet" type="text/css" href="./sideBarTree.css">
+	
 	<style type="text/css">
 		
 		.grid-container {
@@ -30,43 +38,8 @@
 			width:100%
 			object-fit:contain
 		}
+	</style>			
 		
-		/***** For sidebar hierarchical list *****/
-
-		/* Style the caret/arrow */
-		.caret {
-		  cursor: pointer;
-		  user-select: none; /* Prevent text selection */
-		}
-
-		/* Create the caret/arrow with a unicode, and style it */
-		.caret::before {
-		  content: "\25B6";
-		  color: black;
-		  display: inline-block;
-		  margin-right: 6px;
-		}
-
-		/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
-		.caret-down::before {
-		  transform: rotate(90deg);
-		}
-
-		/* Hide the nested list */
-		.nested {
-		  display: none;
-		}
-
-		/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
-		.active {
-		  display: block;
-		}
-		
-		.redCell {
-			background-color: red;
-		}
-		
-	</style>
 </head>
 
 <body onload="initialize();">
@@ -92,7 +65,6 @@
 		<div class='grid-item'
 			id='contentArea'
 			style='grid-column:2; grid-row:2; '>
-<!-- 			<embed type="text/html" src="./testRunner.html"/> -->
 		</div>
 	</div>
 	
@@ -102,6 +74,9 @@
 	<script src="./sideBarTreeInit.js" type="text/javascript">
 	</script>
 	
+	<script src="./testRunner.js" type="text/javascript">
+	</script>
+	
 	
   	<script type="text/javascript">
   		"use strict";
@@ -109,7 +84,7 @@
 		function configReadCallback(courseConfig) {
 			console.log("configReadCallback");
 			initTOC(courseConfig);
-			initializeTest(courseConfig,1);
+			initializeTest(courseConfig, stageNumber);
 		}
 					
 		function initialize() {
