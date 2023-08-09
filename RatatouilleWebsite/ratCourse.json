@@ -1,13 +1,13 @@
 {
 	"title":"Ratatouille",
 	"stages":[
-		{"stageName": "initialVideos", "stageType":"video",
+		{"title": "initial Videos", "stageType":"video",
 		"videoList":[
-			{"fileName":"shortTestVideo.m4v", "allowContols":"false" },
-			{"fileName":"shortTestVideo.m4v", "allowContols":"false" }
+			{"title": "short vid 1", "fileName":"shortTestVideo.m4v", "allowContols":"false" },
+			{"title": "short vid 2", "fileName":"shortTestVideo.m4v", "allowContols":"false" }
 			]
 		},
-		{"stageName": "Test test", "stageType":"test",
+		{"title": "Test test", "stageType":"test",
 		"testFile":"testTest.json"
 		}
 	]

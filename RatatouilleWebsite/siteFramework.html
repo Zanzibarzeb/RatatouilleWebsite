@@ -30,6 +30,42 @@
 			width:100%
 			object-fit:contain
 		}
+		
+		/***** For sidebar hierarchical list *****/
+
+		/* Style the caret/arrow */
+		.caret {
+		  cursor: pointer;
+		  user-select: none; /* Prevent text selection */
+		}
+
+		/* Create the caret/arrow with a unicode, and style it */
+		.caret::before {
+		  content: "\25B6";
+		  color: black;
+		  display: inline-block;
+		  margin-right: 6px;
+		}
+
+		/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+		.caret-down::before {
+		  transform: rotate(90deg);
+		}
+
+		/* Hide the nested list */
+		.nested {
+		  display: none;
+		}
+
+		/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+		.active {
+		  display: block;
+		}
+		
+		.redCell {
+			background-color: red;
+		}
+		
 	</style>
 </head>
 
@@ -41,34 +77,43 @@
 			<image class="grid-item-contents"
 				src="./assets/Logo.png"/>
 		</div>
+		
 		<div class='grid-item'
 			id='header'
 			style='grid-column:2; grid-row:1; background-color: red'>
 		</div>
+		
 		<div class='grid-item'
 			id='sideBar'
 			style='grid-column:1; grid-row:2; min-width=200; clip-path:inset(0);'>
-			<embed type="text/html" class="grid-item-contents" src="treeView.html">
+			<ul id="tableOfContents" class="grid-item-contents"/>
 		</div>
+		
 		<div class='grid-item'
 			id='contentArea'
-			style='grid-column:2; grid-row:2; background-color: green'>
+			style='grid-column:2; grid-row:2; '>
+<!-- 			<embed type="text/html" src="./testRunner.html"/> -->
 		</div>
 	</div>
 	
 	<script src="./configReader.js" type="text/javascript">
 	</script>
 	
+	<script src="./sideBarTreeInit.js" type="text/javascript">
+	</script>
+	
+	
   	<script type="text/javascript">
   		"use strict";
  
-		function configReadCallback() {
+		function configReadCallback(courseConfig) {
 			console.log("configReadCallback");
+			initTOC(courseConfig);
+			initializeTest(courseConfig,1);
 		}
 					
 		function initialize() {
 			console.log("initialize");
-			
 			readConfigFromQueryString(configReadCallback);
 		};
 		

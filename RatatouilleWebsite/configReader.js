@@ -9,7 +9,9 @@
 		
 			// read REST parameters
 			const queryString = window.location.search;
+			console.log("queryString: "+queryString);
 			const urlParms = new URLSearchParams(queryString);
+			console.log("urlParms: "+urlParms);
 
 			// read course config file name and stage to execute
 			const configFileName = urlParms.get("config");
@@ -29,5 +31,5 @@
 			console.log("JSON from config file:\n");
 			console.log(courseConfig);
 			
-			callback();
+			callback(courseConfig);
 		}
