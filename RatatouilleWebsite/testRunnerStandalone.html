@@ -1,0 +1,191 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<title>Not a recipe</title>
+	<link rel="icon" href="./assets/EvenSmallerLogo.png">
+	
+	<script type="text/javascript">
+	</script>
+	<style type="text/css">
+		.answer {
+			font-family:Arial, sans-serif;
+			font-size:20px;
+			color: blue;
+		}
+		.question {
+			font-family:Arial, sans-serif;
+			font-size:25px;
+			color: black;		}
+		input {
+			padding:4px 2px;
+			border:solid 1px #aacfe4;
+			margin:20px;
+		}
+
+		
+		/* from blog.logrocker.com */
+		.grid-container {
+			display: grid;
+			justify-content: start;
+/* 
+			grid-template-rows: 190px 40px auto;
+ */
+			grid-template-columns: 60px 500px auto;
+			grid-gap: 5px;
+			background-color: lightgray;
+			padding: 10px;
+		}
+		.grid-container > div {
+			background-color: lightblue;
+			padding: 10px 0;
+			font-size: 12px;
+		}
+		fieldset { 
+			border: 1px solid blue;
+		}
+
+		legend {
+			padding: 10px;
+			background:  #5c0b02;
+			color: white;
+		}
+
+		input[type="submit"]{
+			background: #0de281;
+		}
+
+		input[type="checkbox"] {
+			outline: 3px solid black;
+		}
+	</style>
+</head>
+
+<body onload="initialize();">
+
+	<div id="contentDiv">
+	</div>
+
+  	<script type="text/javascript">
+  		"use strict";
+	
+		{
+			var currentQuestionIndex = 0;
+			var stageNumber;
+			var courseConfig;
+			var testConfig;
+			var contentDiv= document.getElementById("contentDiv");
+		}
+		
+		function displayCurrentQuestion() {
+			console.log("displayCurrentQuestion");
+		
+			const currentQuestion = testConfig.questions[currentQuestionIndex];
+			
+			// clear previous contents 
+			contentDiv.innerHTML = '';
+
+			// display question
+			const question = document.createElement("p");
+			question.className = "question";
+			question.innerText = currentQuestion.question;
+			contentDiv.appendChild(question);
+			
+			// create form for answers
+			const answerForm = document.createElement("form");
+			answerForm.className = "grid-container";
+			contentDiv.appendChild(answerForm);
+			
+			// display answers
+			for (var answerIndex in currentQuestion.answers) {
+				var answer = currentQuestion.answers[answerIndex];
+				
+				// create elements for the answer
+				const control = document.createElement('input');
+				control.type = currentQuestion.controlType;
+				
+				const label = document.createElement('label');
+				label.className = "answer";
+				label.innerText = answer.text;
+				
+				// correlate control to text
+				control.id = "answer" + answerIndex;
+				label.for = control.id;
+				
+				// insert
+				answerForm.appendChild(control);
+				answerForm.appendChild(label);
+				
+				// break
+				answerForm.appendChild( document.createElement('br') );
+			}
+		}
+		
+		async function readTestQuestions(fileName) {
+			let url = "./" + fileName;
+			
+			let response = await fetch(url);
+	
+			if (response.ok) { // if HTTP-status is 200-299
+				testConfig = await response.json();
+			} else {
+				alert("HTTP Error while retrieving the course configuration.\n" + response.status);
+			}
+			
+			console.log("JSON from test file:\n");
+			console.log(testConfig);
+			
+			displayCurrentQuestion();
+		}
+			
+		async function readConfig(fileName) {
+		
+			let url = "./" + fileName;
+			
+			let response = await fetch(url);
+	
+			if (response.ok) { // if HTTP-status is 200-299
+				courseConfig = await response.json();
+			} else {
+				alert("HTTP Error while retrieving the course configuration.\n" + response.status);
+			}
+			
+			console.log("JSON from config file:\n");
+			console.log(courseConfig);
+			
+			// find the file name for this test
+			fileName = courseConfig.stages[stageNumber].testFile;
+			console.log("test file name: " + fileName);
+			readTestQuestions(fileName);
+		}
+		
+		function showResult() {
+			console.log("showResult");
+		}
+					
+		function initialize() {
+			console.log("initialize");
+		
+			// read REST parameters
+			const queryString = window.location.search;
+			const urlParms = new URLSearchParams(queryString);
+			
+			// read course config file name and stage to execute
+			const configFileName = urlParms.get("config");
+			console.log("configFileName: "+configFileName);
+			stageNumber = urlParms.get("stage");
+			
+			// read the course configuration
+			readConfig(configFileName);			
+		};
+		
+	</script>
+    
+	<div id="questionButtons">
+		<button id= "Submit" type="button" onclick="showResult()">Submit</button>
+	</div>
+
+  </body>
+  </html>
