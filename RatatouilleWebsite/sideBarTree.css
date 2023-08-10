@@ -29,8 +29,5 @@
 }
 
 .currentItem {
-	padding: 5;
-	border: 2;
-	border-color: blue;
-	background-color: red;
+	background-color: lightblue;
 }

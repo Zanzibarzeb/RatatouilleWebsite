@@ -2,9 +2,9 @@
 			
 	console.log("running main course tree view script");
 	
-	var currentItemStage;
-	var currentItemSubStage;
-	var currentItemElement;
+	var currentItem = null;
+	
+	const viewAttributeName = 'sidebarItemView';
 	
 	function parentClickHandler(event) {
 		console.log("click event: " + event);
@@ -12,10 +12,23 @@
 		this.classList.toggle("caret-down");
 	}
 	
-	function setCurrentItem(stageNumber, subNumber) {
+	function setCurrentItem(stageNumber, subNumber=null) {
+		// find the item in the model
+		var stage = courseConfig.stages[ stageNumber ];
+		var item = stage;
+		if (subNumber != null && stage.stageType == 'video') {
+			item = stage.videoList[subNumber];
+		}
 		
+		// remove highlight from old item
+		if (currentItem != null) {
+			currentItem.sidebarView.classList.remove('currentItem');
+		}
+		
+		// make new view current item
+		currentItem = item;		
+		currentItem.sidebarView.classList.add('currentItem');
 	}
-
 	
 	function initTOC(courseConfig) {
 		console.log("initTOC");
@@ -31,22 +44,18 @@
 			tocItem.style.cursor = 'pointer';
 			tocItem.style.listStyleType = 'none';
 			
-			if (stageNumber == 1) {
-				tocItem.classList.add("currentItem");
-			}
-			
+			// maintain association between model and view
+			stage.sidebarView = tocItem;
+						
 			if (stage.stageType == 'video') {
 				console.log("video stage");
 				tocItem.classList.add('caret');
 				tocItem.addEventListener("click", parentClickHandler);
 				
-				// make video stages a parent in the hierarchy
+				// make video stage a parent in the hierarchy
 				
-				
-				// add span
+				// add span and sublist
 				var span = document.createElement('span');
-				
-				// add sublist
 				var ul = document.createElement('ul');
 				ul.classList.add('nested');
 				ul.appendChild(span);
@@ -56,8 +65,12 @@
 				// add elements for each video
 				for (var videoNumber in stage.videoList) {					
 					var videoItem = document.createElement('li');
-					videoItem.innerText = stage.videoList[ videoNumber ].title;
+					var videoModel = stage.videoList[ videoNumber ];
+					videoItem.innerText = videoModel.title;
 					ul.appendChild(videoItem);
+					
+					// maintain association between model and view
+					videoModel.sidebarView = videoItem;
 				}
 			}
 			
