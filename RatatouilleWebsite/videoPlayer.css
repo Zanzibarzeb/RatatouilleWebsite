@@ -1,0 +1,25 @@
+.video-player-container {
+	display: grid;
+	justify-content: start;
+	grid-template-rows: 80% 20% auto;
+	grid-gap: 5px;
+	background-color: lightgray;
+	padding: 10px;
+}
+
+.video-player-frame {
+	display: block;
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.button-container {
+	display: block;
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.button-video {
+	display: block;
+	height: 100%;
+}

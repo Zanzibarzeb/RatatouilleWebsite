@@ -13,25 +13,15 @@ input {
 	margin:20px;
 }
 
-
 .question-container {
 	display: grid;
 	justify-content: start;
-/* 
-	grid-template-rows: 190px 40px auto;
-*/
 	grid-template-columns: 60px 500px auto;
 	grid-gap: 5px;
 	background-color: lightgray;
 	padding: 10px;
 }
-/* 
-.grid-container > div {
-	background-color: lightblue;
-	padding: 10px 0;
-	font-size: 12px;
-}
- */
+
 fieldset { 
 	border: 1px solid blue;
 }

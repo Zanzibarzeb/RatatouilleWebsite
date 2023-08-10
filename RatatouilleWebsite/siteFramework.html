@@ -17,6 +17,8 @@
 	
 	<link rel="stylesheet" type="text/css" href="./sideBarTree.css">
 	
+	<link rel="stylesheet" type="text/css" href="./videoPlayer.css">
+	
 	<style type="text/css">
 		
 		.grid-container {
@@ -64,7 +66,7 @@
 		
 		<div class='grid-item'
 			id='contentArea'
-			style='grid-column:2; grid-row:2; '>
+			style='grid-column:2; grid-row:2; background-color: green'>
 		</div>
 	</div>
 	
@@ -77,6 +79,9 @@
 	<script src="./testRunner.js" type="text/javascript">
 	</script>
 	
+	<script src="./videoPlayer.js" type="text/javascript">
+	</script>
+	
 	
   	<script type="text/javascript">
   		"use strict";
@@ -84,8 +89,12 @@
 		function configReadCallback(courseConfig) {
 			console.log("configReadCallback");
 			initTOC(courseConfig);
-			initializeTest(courseConfig, stageNumber);
-			setCurrentItem(0,0);
+			//initializeTest(courseConfig, stageNumber);
+			initializeVideoPlayer(courseConfig, stageNumber);
+			console.log("configReadCallback 1");
+			playVideoFromStage(0,0);
+			console.log("configReadCallback 2");
+			setCurrentItem(0, 0);
 		}
 					
 		function initialize() {
