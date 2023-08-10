@@ -17,9 +17,11 @@ function onendedHandler(event) {
 	console.log(stageNumber);
 	if (currentVideoIndex >= courseConfig.stages[ stageNumber ].videoList.length) {
 		console.log('done videos....');
+		nextStage();
 	} else {
 		videoFrame.pause();
 		playVideo(stageNumber, currentVideoIndex);
+		setSubStage(currentVideoIndex);
 	}
 }
 
@@ -66,7 +68,6 @@ function initializeVideoPlayer(courseConfig, stageNumber) {
 	videoFrame.addEventListener("loadeddata", videoLoadedHandler);
 	
  	videoDiv.appendChild(videoFrame);
-
 	
 	// add control buttons
 	var buttonDiv = document.createElement('div');

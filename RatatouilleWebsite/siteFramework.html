@@ -85,15 +85,37 @@
 	
   	<script type="text/javascript">
   		"use strict";
+  		
+  		function playStage() {
+			var stage = courseConfig.stages[stageNumber];
+			
+			if (stage.stageType == 'video') {
+				initializeVideoPlayer(courseConfig, stageNumber);
+					playVideoFromStage(stageNumber,0);
+			} else if (stage.stageType == 'test') {
+				initializeTest(courseConfig, stageNumber);
+			}
+  		}
+  		
+  		function nextStage() {
+  			stageNumber++;
+  			
+  			setCurrentItem(stageNumber, 0);
+  			
+  			if (stageNumber < courseConfig.stages.length) {
+  				// start the next stage
+  				playStage();
+  			}
+  		}
+  		
+  		function setSubStage(substage) {
+  			setCurrentItem(stageNumber, substage);
+  		}
  
 		function configReadCallback(courseConfig) {
 			console.log("configReadCallback");
 			initTOC(courseConfig);
-			//initializeTest(courseConfig, stageNumber);
-			initializeVideoPlayer(courseConfig, stageNumber);
-			console.log("configReadCallback 1");
-			playVideoFromStage(0,0);
-			console.log("configReadCallback 2");
+			playStage();
 			setCurrentItem(0, 0);
 		}
 					
