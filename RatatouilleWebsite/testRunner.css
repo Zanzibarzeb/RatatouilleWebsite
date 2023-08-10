@@ -7,11 +7,13 @@
 	font-family:Arial, sans-serif;
 	font-size:25px;
 	color: black;		}
+/* 
 input {
 	padding:4px 2px;
 	border:solid 1px #aacfe4;
 	margin:20px;
 }
+ */
 
 .question-container {
 	display: grid;
@@ -36,6 +38,8 @@ input[type="submit"]{
 	background: #0de281;
 }
 
+/* 
 input[type="checkbox"] {
 	outline: 3px solid black;
 }
+ */
