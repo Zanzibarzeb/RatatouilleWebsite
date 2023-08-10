@@ -54,13 +54,11 @@ function initializeVideoPlayer(courseConfig, stageNumber) {
 	outerDiv.classList.add('video-player-container');
 	
 	var videoDiv = document.createElement('div');
-	videoDiv.style.backgroundColor = 'red';
 	
 	// add a video frame to the content area
 	videoFrame = document.createElement('video');
  	videoFrame.autoPlay = 'false';
  	videoFrame.muted = 'false';
- 	videoFrame.style.height = 
 	videoFrame.classList.add('video-player-frame');
 
  	// add video ended handler to the video frame
