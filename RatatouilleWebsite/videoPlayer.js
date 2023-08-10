@@ -5,14 +5,15 @@
 	var videoList;
 	var videoFrame = null;
 	var contentArea = document.getElementById("contentArea");
+	var playButton;
 }
 
 function onendedHandler(event) {
 	console.log("onendedHandler\n");
 
-	currentVideoIndex++;
+	currentVideoIndex++;	
 
-	if (currentVideoIndex >= videoList.length) {
+	if (currentVideoIndex >= courseConfig.stages[ stageNumber ].videoList.length) {
 		console.log('done videos....');
 	} else {
 		videoFrame.pause();
@@ -37,7 +38,7 @@ function playVideoFromStage(stageNumber, videoNumber) {
 	videoFrame.setAttribute("src", "./" + videoFileName);
 }
 
-function play() {
+function playClicked() {
 	console.log("play");
 	videoFrame.play();
 }
@@ -45,32 +46,44 @@ function play() {
 function initializeVideoPlayer(courseConfig, stageNumber) {
 	console.log("initialize video player");
 	
+	videoList = courseConfig.stages[ stageNumber ].videoList;
+
 	var outerDiv = document.createElement('div');
-	outerDiv.backgroundColor = 'blue';
 	outerDiv.classList.add('video-player-container');
+	
+	var videoDiv = document.createElement('div');
+	videoDiv.style.backgroundColor = 'red';
 	
 	// add a video frame to the content area
 	videoFrame = document.createElement('video');
-	videoFrame.autoPlay = 'false';
-	videoFrame.muted = 'false';
+ 	videoFrame.autoPlay = 'false';
+ 	videoFrame.muted = 'false';
+ 	videoFrame.style.height = 
 	videoFrame.classList.add('video-player-frame');
-	outerDiv.appendChild(videoFrame);
 
-	// add video ended handler to the video frame
+ 	// add video ended handler to the video frame
 	videoFrame.addEventListener("ended", onendedHandler);
 	videoFrame.addEventListener("loadeddata", videoLoadedHandler);
 	
+ 	videoDiv.appendChild(videoFrame);
+
+	
 	// add control buttons
-	var div = document.createElement('div');
-	div.classList.add('button-container');
+	var buttonDiv = document.createElement('div');
+	buttonDiv.classList.add('button-container');
+	
 	var button = document.createElement('button');
+	button.type = 'button';
 	button.innerText = 'Play';
-	button.addEventListener('click', play);
-	button.classList.add('button-video');
-	div.appendChild(button);
+	button.addEventListener('click', playClicked);
+//	button.classList.add('button-video');
+	playButton = button;
 	
-	outerDiv.appendChild(div);
-	
+	buttonDiv.appendChild(button);
+		
+	outerDiv.appendChild(videoDiv);
+	outerDiv.appendChild(buttonDiv);
+
 	contentArea.appendChild(outerDiv);
 };
 

@@ -77,7 +77,7 @@ function initTOC(courseConfig) {
 				videoModel.sidebarView = videoItem;
 			}
 		}
-		
+
 		tocList.appendChild(tocItem);
 	}
 }
