@@ -13,6 +13,8 @@ function onendedHandler(event) {
 
 	currentVideoIndex++;	
 
+	console.log(courseConfig);
+	console.log(stageNumber);
 	if (currentVideoIndex >= courseConfig.stages[ stageNumber ].videoList.length) {
 		console.log('done videos....');
 	} else {
@@ -76,7 +78,7 @@ function initializeVideoPlayer(courseConfig, stageNumber) {
 	button.type = 'button';
 	button.innerText = 'Play';
 	button.addEventListener('click', playClicked);
-//	button.classList.add('button-video');
+	button.classList.add('button-video');
 	playButton = button;
 	
 	buttonDiv.appendChild(button);
