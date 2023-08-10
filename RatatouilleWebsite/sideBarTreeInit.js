@@ -2,11 +2,19 @@
 			
 	console.log("running main course tree view script");
 	
+	var currentItemStage;
+	var currentItemSubStage;
+	var currentItemElement;
+	
 	function parentClickHandler(event) {
 		console.log("click event: " + event);
 		this.parentElement.querySelector(".nested").classList.toggle("active");
 		this.classList.toggle("caret-down");
-	  }
+	}
+	
+	function setCurrentItem(stageNumber, subNumber) {
+		
+	}
 
 	
 	function initTOC(courseConfig) {
@@ -23,6 +31,10 @@
 			tocItem.style.cursor = 'pointer';
 			tocItem.style.listStyleType = 'none';
 			
+			if (stageNumber == 1) {
+				tocItem.classList.add("currentItem");
+			}
+			
 			if (stage.stageType == 'video') {
 				console.log("video stage");
 				tocItem.classList.add('caret');
@@ -33,7 +45,6 @@
 				
 				// add span
 				var span = document.createElement('span');
-// 				span.classList.add('caret');
 				
 				// add sublist
 				var ul = document.createElement('ul');
