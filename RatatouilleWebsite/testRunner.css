@@ -6,19 +6,13 @@
 .question {
 	font-family:Arial, sans-serif;
 	font-size:25px;
-	color: black;		}
-/* 
-input {
-	padding:4px 2px;
-	border:solid 1px #aacfe4;
-	margin:20px;
+	color: black;		
 }
- */
 
 .question-container {
 	position: relative;
 	justify-content: start;
-	background-color: blue;
+/* 	background-color: blue; */
 	padding: 10px;
 }
 
@@ -27,22 +21,18 @@ input {
 	justify-content: start;
 	grid-template-columns: 60px 500px auto;
 	grid-gap: 5px;
-	background-color: lightgray;
+/* 	background-color: lightgray; */
 	padding: 10px;
 }
 
-fieldset { 
-	border: 1px solid blue;
+.test-button {
+	margin: 10px;
 }
 
-legend {
-	padding: 10px;
-	background:  #5c0b02;
-	color: white;
-}
-
-input[type="submit"]{
-	background: #0de281;
+.button-container {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px 50px;
 }
 
 .checkOrX {

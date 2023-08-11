@@ -5,7 +5,16 @@
 	var testConfig;
 	var contentArea = document.getElementById("contentArea");
 	var questionDiv = null;
+	var answerForm = null;
+	var buttonDiv = null;
+	var overlayDiv = null;
+	var tryAgainButton = null;
+	var continueButton = null;
 }
+
+/******
+ Display the question on the screen with appropriate buttons
+*******/
 
 function displayCurrentQuestion() {
 	console.log("displayCurrentQuestion");
@@ -16,7 +25,6 @@ function displayCurrentQuestion() {
 	contentArea.innerHTML = '';
 	
 	var outerDiv = document.createElement('div');
-	outerDiv.style.backgroundColor = 'lightblue';
 	outerDiv.height = '100%';
 	outerDiv.width = '100%';
 
@@ -31,7 +39,7 @@ function displayCurrentQuestion() {
 	questionDiv.appendChild(question);
 	
 	// create form for answers
-	const answerForm = document.createElement("form");
+	answerForm = document.createElement("div");
 	answerForm.classList.add('answer-container');
 	questionDiv.appendChild(answerForm);
 	
@@ -42,7 +50,7 @@ function displayCurrentQuestion() {
 		// create elements for the answer
 		var control = document.createElement('input');
 		control.type = currentQuestion.controlType;
-		control.checked = answer.correctChoice;
+		control.name = "choice"; // correlates radio buttons
 		
 		var label = document.createElement('label');
 		label.classList.add("answer");
@@ -63,16 +71,53 @@ function displayCurrentQuestion() {
 		answer.controlView = control;
 	}
 	
-	var buttonDiv = document.createElement('div');
+	buttonDiv = document.createElement('div');
 	
-	var submitButton = document.createElement('button');
-	submitButton.innerText = "Submit";
+	var submitButton = addButton("Submit");
 	submitButton.onclick = evaluateResponse;
-	buttonDiv.appendChild(submitButton);
+	
+	tryAgainButton = addButton("Try again");
+	tryAgainButton.onclick = tryAgainClicked;
+	tryAgainButton.style.display = 'none';
+
+	continueButton = addButton("Continue");
+	continueButton.onclick = continueClicked;
+	continueButton.style.display = 'none';
 	
 	outerDiv.appendChild(buttonDiv);
 	
 	contentArea.appendChild(outerDiv);
+}
+
+function continueClicked() {
+	currentQuestionIndex++;
+	
+	if (currentQuestionIndex < testConfig.questions.length) {
+		displayCurrentQuestion();
+	} else {
+		nextStage();
+	}
+}
+
+function tryAgainClicked() {
+	console.log('tryAgainClicked');
+	overlayDiv.remove();
+	
+	answerForm.style.opacity = '100%';
+	
+	// uncheck all items
+	var answers = testConfig.questions[currentQuestionIndex].answers;
+	for (var answerIndex in answers) {
+		answers[answerIndex].controlView.checked = false;
+	}
+}
+
+function addButton(label) {	
+	var button = document.createElement('button');
+	button.classList.add('test-button');
+	button.innerText = label;
+	buttonDiv.appendChild(button);
+	return button;
 }
 
 function displayCheckOrX(check) {
@@ -87,7 +132,7 @@ function displayCheckOrX(check) {
 	image.src = imageFile;
  	image.classList.add('checkOrX');
 	
-	var overlayDiv = document.createElement('div');
+	overlayDiv = document.createElement('div');
 	overlayDiv.classList.add('overlayPanel');
 	
 	overlayDiv.appendChild(image);
@@ -101,14 +146,20 @@ function evaluateResponse() {
 	var correct = true;
 	for (var answerIndex in testConfig.questions[currentQuestionIndex].answers) {
 		var currentAnswer = testConfig.questions[currentQuestionIndex].answers[answerIndex];
-				
 		correct = correct && (currentAnswer.correctChoice === currentAnswer.controlView.checked);
 	}
 	
+	continueButton.style.display = 'none';
+	tryAgainButton.style.display = 'none';
+	
+	answerForm.style.opacity = '40%';
+	
 	if (correct) {
 		console.log("correct");
+		continueButton.style.display = 'inline';
 	} else {
 		console.log("wrong");
+		tryAgainButton.style.display = 'inline';
 	}
 	
 	displayCheckOrX(correct);
@@ -119,7 +170,7 @@ async function readTestQuestions(fileName, callback) {
 	
 	let response = await fetch(url);
 
-	if (response.ok) { // if HTTP-status is 200-299
+	if (response.ok) {
 		testConfig = await response.json();
 	} else {
 		alert("HTTP Error while retrieving the course configuration.\n" + response.status);

@@ -4,9 +4,8 @@
 	grid-template-rows: 95% 5% auto;
 	grid-template-columns: 100%;
 	grid-gap: 5px;
-	background-color: lightgray;
+/* 	background-color: lightgray; */
 	padding: 10px;
- 
 	height:100%;
 	width:100%
 
@@ -17,19 +16,11 @@
 	object-fit: contain;
 	height: 100%;
 	width: 100%;
-/* 
-	grid-column: 1;
-	grid-row: 1;
- */
 }
 
 .button-container {
 	display: block;
-/* 
-	grid-column: 1;
-	grid-row: 2;
- */
-	background-color: pink;
+/* 	background-color: pink; */
 }
 
 .button-video {

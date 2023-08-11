@@ -67,7 +67,7 @@
 		<div class='grid-item'
 			id='contentArea'
 			position='relative'
-			style='grid-column:2; grid-row:2; background-color: green'>
+			style='grid-column:2; grid-row:2;'>
 		</div>
 	</div>
 	
@@ -100,11 +100,10 @@
   		function nextStage() {
   			stageNumber++;
   			
-  			setCurrentItem(stageNumber, 0);
-  			
   			if (stageNumber < courseConfig.stages.length) {
   				// start the next stage
   				playStage();
+  				setCurrentItem(stageNumber, 0);
   			}
   		}
   		

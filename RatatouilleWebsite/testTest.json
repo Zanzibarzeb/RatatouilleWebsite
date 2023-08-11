@@ -8,6 +8,14 @@
 			{"text":"Lavender", "correctChoice":false },
 			{"text":"Tomatoes", "correctChoice":true }
 			]
+		},
+		{"question": "Where was ratatouille invented?", "controlType":"radio",
+		"answers":[
+			{"text":"Rome", "correctChoice":false },
+			{"text":"Paris", "correctChoice":false },
+			{"text":"Marseille", "correctChoice":false },
+			{"text":"Nice", "correctChoice":true }
+			]
 		}
 	]
 }
