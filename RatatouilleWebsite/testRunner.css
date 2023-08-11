@@ -16,10 +16,9 @@ input {
  */
 
 .question-container {
-	display: block;
 	position: relative;
 	justify-content: start;
-	background-color: lightgray;
+	background-color: blue;
 	padding: 10px;
 }
 
@@ -46,14 +45,25 @@ input[type="submit"]{
 	background: #0de281;
 }
 
+.center {
+  position: absolute;
+  top: 50px;
+/* 
+  width: 100%;
+ */
+  text-align: center;
+}
+
 .checkOrX {
-	display: inline-block;
 	height: 100px;
 	width: 100px;
 /* 	background-color: pink; */
 }
 
 .overlayPanel {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	position: absolute;
 	top: 0;
 	left: 0;

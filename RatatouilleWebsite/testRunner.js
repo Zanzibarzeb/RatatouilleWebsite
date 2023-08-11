@@ -94,6 +94,8 @@ function displayCheckOrX(check) {
 	
 	var div = document.createElement('div');
 	div.classList.add('overlayPanel');
+	div.classList.add('center');
+	
 	div.appendChild(image);
 	
 // 	contentArea.innerHTML = '';
