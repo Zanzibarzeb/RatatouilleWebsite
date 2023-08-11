@@ -3,10 +3,10 @@
 	"questions":[
 		{"question": "What goes in ratatouille?", "controlType":"checkbox",
 		"answers":[
-			{"text":"Eggplant", "correctChoice":"true" },
-			{"text":"Zucchini", "correctChoice":"true" },
-			{"text":"Lavender", "correctChoice":"false" },
-			{"text":"Tomatoes", "correctChoice":"true" }
+			{"text":"Eggplant", "correctChoice":true },
+			{"text":"Zucchini", "correctChoice":true },
+			{"text":"Lavender", "correctChoice":false },
+			{"text":"Tomatoes", "correctChoice":true }
 			]
 		}
 	]

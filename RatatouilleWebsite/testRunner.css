@@ -16,6 +16,14 @@ input {
  */
 
 .question-container {
+	display: block;
+	position: relative;
+	justify-content: start;
+	background-color: lightgray;
+	padding: 10px;
+}
+
+.answer-container {
 	display: grid;
 	justify-content: start;
 	grid-template-columns: 60px 500px auto;
@@ -36,6 +44,27 @@ legend {
 
 input[type="submit"]{
 	background: #0de281;
+}
+
+.checkOrX {
+	display: inline-block;
+	height: 100px;
+	width: 100px;
+/* 	top: 20; */
+/* 	background-color: pink; */
+}
+
+.overlayPanel {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 9;
+	height: 100%;
+	width: 100%;
+/* 
+	background-color: gray;
+ */
+	text-align: center;
 }
 
 /* 
