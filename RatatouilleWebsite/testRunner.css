@@ -45,15 +45,6 @@ input[type="submit"]{
 	background: #0de281;
 }
 
-.center {
-  position: absolute;
-  top: 50px;
-/* 
-  width: 100%;
- */
-  text-align: center;
-}
-
 .checkOrX {
 	height: 100px;
 	width: 100px;

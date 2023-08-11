@@ -83,23 +83,16 @@ function displayCheckOrX(check) {
 		imageFile = './assets/X.png';
 	}
 	
-// 	var image = document.createElement('div');
 	var image = new Image();
-	
-// 	image.onload = (event) => {
-// 		console.log('image loaded ...');
-// 	}
 	image.src = imageFile;
  	image.classList.add('checkOrX');
 	
-	var div = document.createElement('div');
-	div.classList.add('overlayPanel');
-	div.classList.add('center');
+	var overlayDiv = document.createElement('div');
+	overlayDiv.classList.add('overlayPanel');
 	
-	div.appendChild(image);
+	overlayDiv.appendChild(image);
 	
-// 	contentArea.innerHTML = '';
-	questionDiv.appendChild(div);
+	questionDiv.appendChild(overlayDiv);
 }
 
 function evaluateResponse() {
