@@ -1,26 +1,22 @@
 .video-player-container {
 	display: grid;
 	justify-content: start;
-	grid-template-rows: 95% 5% auto;
-	grid-template-columns: 100%;
-	grid-gap: 5px;
-/* 	background-color: lightgray; */
-	padding: 10px;
+	grid-template-rows: 90% 5%;
+ 	background-color: lightgray; 
 	height:100%;
 	width:100%
-
 }
 
 .video-player-frame {
-	display: block;
 	object-fit: contain;
 	height: 100%;
 	width: 100%;
 }
 
 .button-container {
-	display: block;
-/* 	background-color: pink; */
+	display: flex;
+	min-height: 30px;
+ 	background-color: pink;
 }
 
 .button-video {

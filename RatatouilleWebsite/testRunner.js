@@ -105,6 +105,10 @@ function tryAgainClicked() {
 	
 	answerForm.style.opacity = '100%';
 	
+	tryAgainButton.style.animationName = 'fadeOut';
+	tryAgainButton.style.animationDuration = '1s';
+	tryAgainButton.style.opacity = '0%';
+
 	// uncheck all items
 	var answers = testConfig.questions[currentQuestionIndex].answers;
 	for (var answerIndex in answers) {
@@ -147,7 +151,7 @@ function evaluateResponse() {
 	for (var answerIndex in testConfig.questions[currentQuestionIndex].answers) {
 		var currentAnswer = testConfig.questions[currentQuestionIndex].answers[answerIndex];
 		correct = correct && (currentAnswer.correctChoice === currentAnswer.controlView.checked);
-	}
+	};
 	
 	continueButton.style.display = 'none';
 	tryAgainButton.style.display = 'none';
@@ -157,9 +161,15 @@ function evaluateResponse() {
 	if (correct) {
 		console.log("correct");
 		continueButton.style.display = 'inline';
+		continueButton.style.animationName = 'fadeIn';
+		continueButton.style.animationDuration = '1s';		
+		continueButton.style.opacity = '100%';
 	} else {
 		console.log("wrong");
 		tryAgainButton.style.display = 'inline';
+		tryAgainButton.style.animationName = 'fadeIn';
+		tryAgainButton.style.animationDuration = '1s';	
+		tryAgainButton.style.opacity = '100%';
 	}
 	
 	displayCheckOrX(correct);
