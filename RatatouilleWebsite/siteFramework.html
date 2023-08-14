@@ -39,6 +39,7 @@
 		}
 		
 		.main-header {
+			display: flex;
 			position: relative;
 			height:100%;
 			width:100%;
@@ -49,13 +50,22 @@
 			position: absolute;
 			top: 0;
 			left: 0;
-			height:100%;
-			object-fit:contain;
+			height: 100%;
+			object-fit: contain;
 		}
 		
 		.sidebar-field {
 			background-color: #38B9D3;
 		}
+		
+		.course-title {
+			text-align: center;
+			align-self: stretch;
+			width: 100%;
+			font-family: Arial, sans-serif;
+			font-size: 50px;
+		}
+		
 	</style>
 		
 </head>
@@ -66,6 +76,7 @@
 		<div id='header' class="main-header">
 			<image id='logo' class = 'logo'
 				src="./assets/Logo.png"/>
+			<p id="courseTitle"></p>
 		</div>
 		
 		<div id='sideBarAndContent' class='sidebar-and-content'>
@@ -127,6 +138,10 @@
 			initTOC(courseConfig);
  			playStage();
 			setCurrentItem(stageNumber, 0);
+			
+			var titleElement = document.getElementById("courseTitle");
+			titleElement.innerText = courseConfig.title;
+			titleElement.classList.add('course-title');
 		}
 					
 		function initialize() {
