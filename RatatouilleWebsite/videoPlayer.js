@@ -1,7 +1,6 @@
 "use strict";
 
 {
-	var videoList;
 	var contentArea = document.getElementById("contentArea");
 	var playButton;
 }
@@ -28,8 +27,6 @@ class videoController {
 		
 		this.currentVideoIndex = 0;
 	
-		videoList = courseConfig.stages[ stageNumber ].videoList;
-
 		var outerDiv = document.createElement('div');
 		outerDiv.classList.add('video-player-container');
 	
