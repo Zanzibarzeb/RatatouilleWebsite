@@ -1,93 +1,101 @@
 "use strict";
 
 {
-	var currentVideoIndex = 0;
 	var videoList;
-	var videoFrame = null;
 	var contentArea = document.getElementById("contentArea");
 	var playButton;
 }
 
 function onendedHandler(event) {
 	console.log("onendedHandler\n");
-
-	currentVideoIndex++;	
-
-	console.log(courseConfig);
-	console.log(stageNumber);
-	if (currentVideoIndex >= courseConfig.stages[ stageNumber ].videoList.length) {
-		console.log('done videos....');
-		nextStage();
-	} else {
-		videoFrame.pause();
-		playVideoFromStage(stageNumber, currentVideoIndex);
-		setSubStage(currentVideoIndex);
-	}
+	this.videoController.goToNext();
 }
 
 function videoLoadedHandler(event) {
 	console.log("videoLoadedHandler\n");
-	if (currentVideoIndex > 0) {
-		videoFrame.play();
-	}
-}
-
-function playVideoFromStage(stageNumber, videoNumber) {
-	console.log("\n\n***********play video\n\n");
-	
-	currentVideoIndex = videoNumber;
-	
-	// get the video file name
-	var videoFileName = courseConfig.stages[ stageNumber ].videoList[ videoNumber].fileName;
-	videoFrame.setAttribute("src", "./" + videoFileName);
+	this.videoController.playVideo();
 }
 
 function playClicked() {
 	console.log("play");
-	videoFrame.play();
+	this.videoController.playVideo();
 }
 
-function initializeVideoPlayer(courseConfig, stageNumber) {
-	console.log("initialize video player");
-	
-	videoList = courseConfig.stages[ stageNumber ].videoList;
+class videoController {
 
-	var outerDiv = document.createElement('div');
-	outerDiv.classList.add('video-player-container');
-	
-	var videoDiv = document.createElement('div');
-	
-	// add a video frame to the content area
-	videoFrame = document.createElement('video');
- 	videoFrame.autoPlay = 'false';
- 	videoFrame.muted = 'false';
-	videoFrame.classList.add('video-player-frame');
-
- 	// add video ended handler to the video frame
-	videoFrame.addEventListener("ended", onendedHandler);
-	videoFrame.addEventListener("loadeddata", videoLoadedHandler);
-	
- 	videoDiv.appendChild(videoFrame);
-	
-	// add control buttons
-	var buttonDiv = document.createElement('div');
-	buttonDiv.classList.add('button-container');
-	
-	var button = document.createElement('button');
-	button.type = 'button';
-	button.innerText = '\u23f5'; // play button symbol
-	button.addEventListener('click', playClicked);
-  	button.classList.add('button-video');
-	playButton = button;
-	
-	buttonDiv.appendChild(button);
+	constructor(courseConfig, stageNumber) {
+		console.log("initialize video player");
 		
-	outerDiv.appendChild(videoDiv);
-	outerDiv.appendChild(buttonDiv);
+		this.currentVideoIndex = 0;
+	
+		videoList = courseConfig.stages[ stageNumber ].videoList;
 
-	contentArea.appendChild(outerDiv);
-};
+		var outerDiv = document.createElement('div');
+		outerDiv.classList.add('video-player-container');
+	
+		var videoDiv = document.createElement('div');
+	
+		// add a video frame to the content area
+		this.videoFrame = document.createElement('video');
+		this.videoFrame.autoPlay = 'false';
+		this.videoFrame.muted = 'false';
+		this.videoFrame.classList.add('video-player-frame');
+		this.videoFrame.videoController = this;
 
-function playVideo() {
-	videoFrame.play();
-};
+		// add video ended handler to the video frame
+		this.videoFrame.addEventListener("ended", onendedHandler);
+		this.videoFrame.addEventListener("loadeddata", videoLoadedHandler);
+	
+		videoDiv.appendChild(this.videoFrame);
+	
+		// add control buttons
+		var buttonDiv = document.createElement('div');
+		buttonDiv.classList.add('button-container');
+	
+		var button = document.createElement('button');
+		button.type = 'button';
+		button.innerText = '\u23f5'; // play button symbol
+		button.addEventListener('click', playClicked);
+		button.classList.add('button-video');
+		button.videoController = this;
+		playButton = button;
+	
+		buttonDiv.appendChild(button);
+		
+		outerDiv.appendChild(videoDiv);
+		outerDiv.appendChild(buttonDiv);
+
+		contentArea.appendChild(outerDiv);
+	}
+
+	playVideoFromStage(stageNumber, videoNumber) {
+		console.log("\n\n***********play video\n\n");
+	
+		this.currentVideoIndex = videoNumber;
+	
+		// get the video file name
+		var videoFileName = courseConfig.stages[ stageNumber ].videoList[ videoNumber].fileName;
+		this.videoFrame.setAttribute("src", "./" + videoFileName);
+	}
+	
+	// event handling
+	goToNext() {
+		this.currentVideoIndex++;	
+
+		console.log('goToNext');
+		console.log(courseConfig);
+		console.log(stageNumber);
+		if (this.currentVideoIndex >= courseConfig.stages[ stageNumber ].videoList.length) {
+			console.log('done videos....');
+			nextStage();
+		} else {
+			this.videoFrame.pause();
+			this.playVideoFromStage(stageNumber, this.currentVideoIndex);
+			setSubStage(this.currentVideoIndex);
+		}
+	}
+	
+	playVideo() {
+		this.videoFrame.play();
+	}
+}

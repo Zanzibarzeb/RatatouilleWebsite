@@ -74,12 +74,12 @@ function initTOC(courseConfig) {
 				videoItem.classList.add('treeItem');
 				videoItem.innerText = videoModel.title;
 				ul.appendChild(videoItem);
+				videoItem.stageMNumber = stageNumber;
 				videoItem.videoNumber = videoNumber;
 				
 				videoItem.addEventListener('click', function(event) {
 						event.stopPropagation();
 						console.log('video item clicked.  substage: ' + videoNumber);
-						console.log(this);
 						console.log(this.videoNumber);
 					});
 				

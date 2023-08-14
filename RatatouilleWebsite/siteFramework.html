@@ -60,7 +60,6 @@
 		
 		.course-title {
 			text-align: center;
-			align-self: stretch;
 			width: 100%;
 			font-family: Arial, sans-serif;
 			font-size: 50px;
@@ -108,12 +107,13 @@
   	<script type="text/javascript">
   		"use strict";
   		
+  		var videoPlayer;
+  		
   		function playStage() {
 			var stage = courseConfig.stages[stageNumber];
 			
 			if (stage.stageType == 'video') {
-				initializeVideoPlayer(courseConfig, stageNumber);
-					playVideoFromStage(stageNumber,0);
+				videoPlayer.playVideoFromStage(stageNumber,0);
 			} else if (stage.stageType == 'test') {
 				initializeTest(courseConfig, stageNumber);
 			}
@@ -136,12 +136,16 @@
 		function configReadCallback(courseConfig) {
 			console.log("configReadCallback");
 			initTOC(courseConfig);
- 			playStage();
 			setCurrentItem(stageNumber, 0);
 			
 			var titleElement = document.getElementById("courseTitle");
 			titleElement.innerText = courseConfig.title;
 			titleElement.classList.add('course-title');
+			
+			videoPlayer = new videoController(courseConfig, stageNumber);
+			console.log('********* videoPlayer');
+			console.log(videoPlayer);
+  			playStage();
 		}
 					
 		function initialize() {
