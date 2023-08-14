@@ -69,6 +69,24 @@
 	}
 }
 
+@keyframes partialFadeOut {
+	from {
+		opacity: 100%;
+	}
+	to {
+		opacity: 40%;
+	}
+}
+
+@keyframes partialFadeIn {
+	from {
+		opacity: 40%;
+	}
+	to {
+		opacity: 100%;
+	}
+}
+
 /* 
 input[type="checkbox"] {
 	outline: 3px solid black;

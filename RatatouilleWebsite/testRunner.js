@@ -107,6 +107,7 @@ function tryAgainClicked() {
 	
 	tryAgainButton.style.animationName = 'fadeOut';
 	tryAgainButton.style.animationDuration = '1s';
+// 	tryAgainButton.style.animationDirection = 'reverse';
 	tryAgainButton.style.opacity = '0%';
 
 	// uncheck all items
@@ -134,6 +135,10 @@ function displayCheckOrX(check) {
 	
 	var image = new Image();
 	image.src = imageFile;
+	image.style.animationName = 'fadeIn';
+	image.style.animationDuration = '1s';		
+	image.style.opacity = '100%';
+
  	image.classList.add('checkOrX');
 	
 	overlayDiv = document.createElement('div');
@@ -142,6 +147,10 @@ function displayCheckOrX(check) {
 	overlayDiv.appendChild(image);
 	
 	questionDiv.appendChild(overlayDiv);
+	
+	image.style.animationName = 'fadeIn';
+	image.style.animationDuration = '1s';		
+	image.style.opacity = '100%';
 }
 
 function evaluateResponse() {
