@@ -109,16 +109,6 @@
   		
   		var videoPlayer;
   		
-  		function playStage() {
-			var stage = courseConfig.stages[stageNumber];
-			
-			if (stage.stageType == 'video') {
-				videoPlayer.playVideoFromStage(stageNumber,0);
-			} else if (stage.stageType == 'test') {
-				initializeTest(courseConfig, stageNumber);
-			}
-  		}
-  		
   		function nextStage() {
   			stageNumber++;
   			
@@ -128,9 +118,29 @@
   				setCurrentItem(stageNumber, 0);
   			}
   		}
-  		
+   		
   		function setSubStage(substage) {
   			setCurrentItem(stageNumber, substage);
+  		}
+ 		
+  		function playSubstage(stage, substage) {
+  			console.log('playSubstage');
+			var stageConfig = courseConfig.stages[stage];
+			
+			stageNumber = stage;
+			
+			if (stageConfig.stageType == 'video') {
+				videoPlayer = new videoController(courseConfig, stageNumber);
+				videoPlayer.playVideoFromStage(stage,substage);
+			} else if (stageConfig.stageType == 'test') {
+				initializeTest(courseConfig, stage);
+			}
+			
+			setSubStage(substage);
+  		}
+  		
+  		function playStage() {
+  			playSubstage(stageNumber, 0);
   		}
  
 		function configReadCallback(courseConfig) {

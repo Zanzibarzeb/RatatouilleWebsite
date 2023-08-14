@@ -1,9 +1,5 @@
 "use strict";
 
-{
-	var contentArea = document.getElementById("contentArea");
-	var playButton;
-}
 
 function onendedHandler(event) {
 	console.log("onendedHandler\n");
@@ -24,6 +20,11 @@ class videoController {
 
 	constructor(courseConfig, stageNumber) {
 		console.log("initialize video player");
+		this.contentArea = document.getElementById("contentArea");
+		this.courseConfig = courseConfig;
+		this.stageNumber = stageNumber;
+		
+		this.contentArea.innerHTML = '';
 		
 		this.currentVideoIndex = 0;
 	
@@ -55,23 +56,28 @@ class videoController {
 		button.addEventListener('click', playClicked);
 		button.classList.add('button-video');
 		button.videoController = this;
-		playButton = button;
+		this.playButton = button;
 	
 		buttonDiv.appendChild(button);
 		
 		outerDiv.appendChild(videoDiv);
 		outerDiv.appendChild(buttonDiv);
 
-		contentArea.appendChild(outerDiv);
+		this.contentArea.appendChild(outerDiv);
 	}
 
 	playVideoFromStage(stageNumber, videoNumber) {
 		console.log("\n\n***********play video\n\n");
 	
 		this.currentVideoIndex = videoNumber;
+		this.stageNumber = stageNumber;
+		
+		console.log(this.courseConfig);
+		console.log(this.stageNumber);
+		console.log(this.currentVideoIndex);
 	
 		// get the video file name
-		var videoFileName = courseConfig.stages[ stageNumber ].videoList[ videoNumber].fileName;
+		var videoFileName = this.courseConfig.stages[ stageNumber ].videoList[ videoNumber ].fileName;
 		this.videoFrame.setAttribute("src", "./" + videoFileName);
 	}
 	
@@ -80,14 +86,14 @@ class videoController {
 		this.currentVideoIndex++;	
 
 		console.log('goToNext');
-		console.log(courseConfig);
-		console.log(stageNumber);
-		if (this.currentVideoIndex >= courseConfig.stages[ stageNumber ].videoList.length) {
+		console.log(this.courseConfig);
+		console.log(this.stageNumber);
+		if (this.currentVideoIndex >= this.courseConfig.stages[ this.stageNumber ].videoList.length) {
 			console.log('done videos....');
 			nextStage();
 		} else {
 			this.videoFrame.pause();
-			this.playVideoFromStage(stageNumber, this.currentVideoIndex);
+			this.playVideoFromStage(this.stageNumber, this.currentVideoIndex);
 			setSubStage(this.currentVideoIndex);
 		}
 	}

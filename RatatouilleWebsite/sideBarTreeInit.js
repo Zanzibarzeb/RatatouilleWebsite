@@ -14,6 +14,8 @@ function parentClickHandler(event) {
 
 function setCurrentItem(stageNumber, subNumber=null) {
 	// find the item in the model
+	console.log("setCurrentItem");
+	console.log('stageNumber: ' + stageNumber + ' substageNumber' + subNumber);
 	var stage = courseConfig.stages[ stageNumber ];
 	var item = stage;
 	if (subNumber != null && stage.stageType == 'video') {
@@ -34,6 +36,13 @@ function setCurrentItem(stageNumber, subNumber=null) {
 	currentItem.sidebarView.classList.add('currentItem');
 }
 
+function treeItemClicked(event) {
+		event.stopPropagation();
+		console.log('video item clicked.  substage: ' + this.videoNumber);
+		
+		playSubstage(this.stageNumber, this.videoNumber);
+};
+
 function initTOC(courseConfig) {
 	console.log("initTOC");
 	
@@ -48,6 +57,9 @@ function initTOC(courseConfig) {
 		tocItem.style.cursor = 'pointer';
 		tocItem.style.listStyleType = 'none';
 		tocItem.classList.add('treeItem');
+		tocItem.addEventListener('click', treeItemClicked);
+		tocItem.stageNumber = stageNumber;
+		tocItem.videoNumber = videoNumber;
 		
 		// maintain association between model and view
 		stage.sidebarView = tocItem;
@@ -74,14 +86,10 @@ function initTOC(courseConfig) {
 				videoItem.classList.add('treeItem');
 				videoItem.innerText = videoModel.title;
 				ul.appendChild(videoItem);
-				videoItem.stageMNumber = stageNumber;
+				videoItem.stageNumber = stageNumber;
 				videoItem.videoNumber = videoNumber;
 				
-				videoItem.addEventListener('click', function(event) {
-						event.stopPropagation();
-						console.log('video item clicked.  substage: ' + videoNumber);
-						console.log(this.videoNumber);
-					});
+				videoItem.addEventListener('click', treeItemClicked);
 				
 				// maintain association between model and view
 				videoModel.sidebarView = videoItem;
