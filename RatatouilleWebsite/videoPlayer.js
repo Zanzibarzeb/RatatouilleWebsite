@@ -75,9 +75,13 @@ function initializeVideoPlayer(courseConfig, stageNumber) {
 	
 	var button = document.createElement('button');
 	button.type = 'button';
-	button.innerText = 'Play';
+//	button.style.fontSize = "80px";
+	button.innerText = '\u23f5'; // play button symbol
+// 	button.innerText = ' ';
+//	button.style.backgroundColor = 'red';
+// 	button.style.background = './assets/OrangeField.png';//
 	button.addEventListener('click', playClicked);
-	button.classList.add('button-video');
+  	button.classList.add('button-video');
 	playButton = button;
 	
 	buttonDiv.appendChild(button);

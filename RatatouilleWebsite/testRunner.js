@@ -107,7 +107,6 @@ function tryAgainClicked() {
 	
 	tryAgainButton.style.animationName = 'fadeOut';
 	tryAgainButton.style.animationDuration = '1s';
-// 	tryAgainButton.style.animationDirection = 'reverse';
 	tryAgainButton.style.opacity = '0%';
 
 	// uncheck all items
