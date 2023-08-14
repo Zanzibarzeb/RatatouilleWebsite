@@ -47,6 +47,7 @@ function initTOC(courseConfig) {
 		tocItem.innerText = stage.title;
 		tocItem.style.cursor = 'pointer';
 		tocItem.style.listStyleType = 'none';
+		tocItem.classList.add('treeItem');
 		
 		// maintain association between model and view
 		stage.sidebarView = tocItem;
@@ -70,8 +71,17 @@ function initTOC(courseConfig) {
 			for (var videoNumber in stage.videoList) {					
 				var videoItem = document.createElement('li');
 				var videoModel = stage.videoList[ videoNumber ];
+				videoItem.classList.add('treeItem');
 				videoItem.innerText = videoModel.title;
 				ul.appendChild(videoItem);
+				videoItem.videoNumber = videoNumber;
+				
+				videoItem.addEventListener('click', function(event) {
+						event.stopPropagation();
+						console.log('video item clicked.  substage: ' + videoNumber);
+						console.log(this);
+						console.log(this.videoNumber);
+					});
 				
 				// maintain association between model and view
 				videoModel.sidebarView = videoItem;

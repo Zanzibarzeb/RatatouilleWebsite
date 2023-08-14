@@ -31,3 +31,8 @@
 .currentItem {
 	background-color: lightblue;
 }
+
+.treeItem {
+	font-family: Arial, sans-serif;
+	font-size: 18px;
+}

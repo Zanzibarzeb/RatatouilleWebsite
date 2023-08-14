@@ -20,7 +20,7 @@ function onendedHandler(event) {
 		nextStage();
 	} else {
 		videoFrame.pause();
-		playVideo(stageNumber, currentVideoIndex);
+		playVideoFromStage(stageNumber, currentVideoIndex);
 		setSubStage(currentVideoIndex);
 	}
 }
@@ -28,7 +28,7 @@ function onendedHandler(event) {
 function videoLoadedHandler(event) {
 	console.log("videoLoadedHandler\n");
 	if (currentVideoIndex > 0) {
-		play();
+		videoFrame.play();
 	}
 }
 
@@ -75,11 +75,7 @@ function initializeVideoPlayer(courseConfig, stageNumber) {
 	
 	var button = document.createElement('button');
 	button.type = 'button';
-//	button.style.fontSize = "80px";
 	button.innerText = '\u23f5'; // play button symbol
-// 	button.innerText = ' ';
-//	button.style.backgroundColor = 'red';
-// 	button.style.background = './assets/OrangeField.png';//
 	button.addEventListener('click', playClicked);
   	button.classList.add('button-video');
 	playButton = button;
