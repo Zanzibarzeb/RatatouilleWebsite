@@ -71,12 +71,21 @@
  */
 		}
 		
-		@keyframes contentSlide {
+		@keyframes contentSlideInFromRight {
 			from {
 				left: 100%;
 			}
 			to {
 				left: 0;
+			}
+		}
+		
+		@keyframes contentSlideOutToLeft {
+			from {
+				left: 0;
+			}
+			to {
+				left: -100%;
 			}
 		}
 		
@@ -150,6 +159,7 @@
   		var customController;
   		var contentArea = document.getElementById('contentArea');
   		var currentFrame = null;
+  		var oldFrame = null;
   		
   		function nextStage() {
   			stageNumber++;
@@ -173,9 +183,9 @@
 			stageNumber = stage;
 			
 			var newFrame = makeNextFrame();
-			if (currentFrame != null) {
-				contentArea.removeChild(currentFrame);
-			}
+			// if (currentFrame != null) {
+// 				contentArea.removeChild(currentFrame);
+// 			}
   			contentArea.appendChild(newFrame);
   			currentFrame = newFrame;
 			
@@ -212,10 +222,22 @@
   			newFrame.classList.add('contentFrame');
   			newFrame.classList.add('fill-container');
   			
-			newFrame.style.animationName = 'contentSlide';
+			newFrame.style.animationName = 'contentSlideInFromRight';
 			newFrame.style.animationDuration = '1s';
+			
+			if (currentFrame != null) {
+				currentFrame.style.animationName = 'contentSlideOutToLeft';
+				currentFrame.style.animationDuration = '1s';
+				currentFrame.addEventListener('animationend', oldFrameGone);
+				oldFrame = currentFrame;
+			}
   			
   			return newFrame;
+  		}
+  		
+  		function oldFrameGone() {
+  			console.log('oldFrameGone');
+  			contentArea.removeChild(oldFrame);
   		}
   		
   		// **** initialization ****
