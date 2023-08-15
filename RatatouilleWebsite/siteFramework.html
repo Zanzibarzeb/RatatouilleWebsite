@@ -20,15 +20,14 @@
 			display: grid;
 			grid-template-rows: 80px 1fr;
 			grid-template-columns: 150px 1fr;
+			height: 99vh;
 		}
 				
 		.fill-container {
 			height: 100%;
 			width: 100%;
 			object-fit: contain;
-/* 
 			clip-path: inset(0);
- */
 		}
 		
 		.main-header {
@@ -59,6 +58,46 @@
 			font-size: 50px;
 		}
 		
+		.contentArea {
+			position: relative;
+		}
+		
+		.contentFrame {
+			display: inline;
+			position: absolute;
+/* 
+			left: 0;
+			top: 0;
+ */
+		}
+		
+		@keyframes contentSlide {
+			from {
+				left: 100%;
+			}
+			to {
+				left: 0;
+			}
+		}
+		
+		@keyframes fadeIn {
+			from {
+				opacity: 0%;
+			}
+			to {
+				opacity: 100%;
+			}
+		}
+
+		@keyframes fadeOut {
+			from {
+				opacity: 100%;
+			}
+			to {
+				opacity: 0%;
+			}
+		}
+
 	</style>
 		
 </head>
@@ -83,9 +122,8 @@
 			<ul id="tableOfContents" class="fill-container sidebar-field"/>
 		</div>
 	
-		<div class='fill-container'
-			id='contentArea'
-			position='relative'>
+		<div class='fill-container contentArea'
+			id='contentArea'>
 		</div>	
 	</div>
 
@@ -108,7 +146,10 @@
   		"use strict";
   		
   		var videoPlayer;
+  		var testPlayer;
   		var customController;
+  		var contentArea = document.getElementById('contentArea');
+  		var currentFrame = null;
   		
   		function nextStage() {
   			stageNumber++;
@@ -126,15 +167,26 @@
  		
   		function playSubstage(stage, substage) {
   			console.log('playSubstage');
+  			console.log('content area: ' + contentArea);
 			var stageConfig = courseConfig.stages[stage];
 			
 			stageNumber = stage;
 			
+			var newFrame = makeNextFrame();
+			if (currentFrame != null) {
+				contentArea.removeChild(currentFrame);
+			}
+  			contentArea.appendChild(newFrame);
+  			currentFrame = newFrame;
+			
 			if (stageConfig.stageType == 'video') {
-				videoPlayer = new videoController(courseConfig, stageNumber);
-				videoPlayer.playVideoFromStage(stage,substage);
+				videoPlayer = new videoController(courseConfig, stageNumber, currentFrame);
+				videoPlayer.playVideoFromStage(stage, substage);
+				
 			} else if (stageConfig.stageType == 'test') {
-				initializeTest(courseConfig, stage);
+				testPlayer = new testRunner(courseConfig, stageNumber, currentFrame);
+				readTestFromFile(stageConfig.testFile, testConfigCallback);
+
 			} else if (stageConfig.stageType == 'html') {
 				customController = new customHTMLController(courseConfig, stage);
 			}
@@ -142,8 +194,28 @@
 			setSubStage(substage);
   		}
   		
+  		function testConfigCallback(testConfig) {
+  			console.log('testConfigCallback =================');
+  			console.log(testConfig);
+  			testPlayer.testConfig = testConfig;
+  			testPlayer.displayCurrentQuestion();
+  		}
+  		
   		function playStage() {
   			playSubstage(stageNumber, 0);
+  		}
+  		
+  		function makeNextFrame(left = false) {
+  			console.log('makeNextFrame');
+  			
+  			var newFrame = document.createElement('div');
+  			newFrame.classList.add('contentFrame');
+  			newFrame.classList.add('fill-container');
+  			
+			newFrame.style.animationName = 'contentSlide';
+			newFrame.style.animationDuration = '1s';
+  			
+  			return newFrame;
   		}
   		
   		// **** initialization ****
@@ -154,13 +226,8 @@
 			setCurrentItem(stageNumber, 0);
 			
 			var titleElement = document.getElementById("courseTitle");
-			console.log('titleElement: ' + titleElement)
-			console.log('text content: ' + titleElement.innerText);
 			titleElement.innerText = courseConfig.title;
-			
-			videoPlayer = new videoController(courseConfig, stageNumber);
-			console.log('********* videoPlayer');
-			console.log(videoPlayer);
+						
   			playStage();
 		}
 					

@@ -18,9 +18,17 @@ function playClicked() {
 
 class videoController {
 
-	constructor(courseConfig, stageNumber) {
+	constructor(courseConfig, stageNumber, contentArea = null) {
 		console.log("initialize video player");
-		this.contentArea = document.getElementById("contentArea");
+		console.log('content area: ' + contentArea);
+		
+		if (contentArea == null) {
+			this.contentArea = document.getElementById("contentArea");
+		} else {
+			this.contentArea = contentArea;
+		}
+		
+		
 		this.courseConfig = courseConfig;
 		this.stageNumber = stageNumber;
 		

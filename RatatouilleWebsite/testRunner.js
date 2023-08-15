@@ -1,210 +1,194 @@
 "use strict";
 
-{
-	var currentQuestionIndex = 0;
-	var testConfig;
-	var contentArea = document.getElementById("contentArea");
-	var questionDiv = null;
-	var answerForm = null;
-	var buttonDiv = null;
-	var overlayDiv = null;
-	var tryAgainButton = null;
-	var continueButton = null;
-}
+class testRunner {
 
-/******
- Display the question on the screen with appropriate buttons
-*******/
+	constructor (courseConfig, stageNumber, contentArea) {
+		this.courseConfig = courseConfig;
+		this.stageNumber = stageNumber;
+		this.contentArea = contentArea;
 
-function displayCurrentQuestion() {
-	console.log("displayCurrentQuestion");
-
-	const currentQuestion = testConfig.questions[currentQuestionIndex];
-	
-	// clear previous contents 
-	contentArea.innerHTML = '';
-	
-	var outerDiv = document.createElement('div');
-	outerDiv.height = '100%';
-	outerDiv.width = '100%';
-
-	// display question
-	questionDiv = document.createElement('div');
-	questionDiv.classList.add("question-container");
-	outerDiv.appendChild(questionDiv);
-	
-	const question = document.createElement("p");
-	question.classList.add("question");
-	question.innerText = currentQuestion.question;
-	questionDiv.appendChild(question);
-	
-	// create form for answers
-	answerForm = document.createElement("div");
-	answerForm.classList.add('answer-container');
-	questionDiv.appendChild(answerForm);
-	
-	// display answers
-	for (var answerIndex in currentQuestion.answers) {
-		var answer = currentQuestion.answers[answerIndex];
+		this.currentQuestionIndex = 0;
+		this.testConfig = null;
+		this.questionDiv = null;
+		this.answerForm = null;
+		this.buttonDiv = null;
+		this.overlayDiv = null;
+		this.tryAgainButton = null;
+		this.continueButton = null;
 		
-		// create elements for the answer
-		var control = document.createElement('input');
-		control.type = currentQuestion.controlType;
-		control.name = "choice"; // correlates radio buttons
-		
-		var label = document.createElement('label');
-		label.classList.add("answer");
-		label.innerText = answer.text;
-		
-		// correlate control to text
-		control.id = "answer" + answerIndex;
-		label.for = control.id;
-		
-		// insert
-		answerForm.appendChild(control);
-		answerForm.appendChild(label);
-		
-		// break
-		answerForm.appendChild( document.createElement('br') );
-		
-		// associate answer with view
-		answer.controlView = control;
+		// find and read the test file
+		var fileName = this.courseConfig.stages[ this.stageNumber ].testFile;
 	}
 	
-	buttonDiv = document.createElement('div');
-	
-	var submitButton = addButton("Submit");
-	submitButton.onclick = evaluateResponse;
-	
-	tryAgainButton = addButton("Try again");
-	tryAgainButton.onclick = tryAgainClicked;
-	tryAgainButton.style.display = 'none';
+	/******
+	 Display the question on the screen with appropriate buttons
+	*******/
 
-	continueButton = addButton("Continue");
-	continueButton.onclick = continueClicked;
-	continueButton.style.display = 'none';
-	
-	outerDiv.appendChild(buttonDiv);
-	
-	contentArea.appendChild(outerDiv);
-}
+	displayCurrentQuestion() {
+		console.log("displayCurrentQuestion");
 
-function continueClicked() {
-	currentQuestionIndex++;
+		const currentQuestion = this.testConfig.questions[this.currentQuestionIndex];
+		
+		var outerDiv = document.createElement('div');
+		outerDiv.height = '100%';
+		outerDiv.width = '100%';
+
+		// display question
+		this.questionDiv = document.createElement('div');
+		this.questionDiv.classList.add("question-container");
+		outerDiv.appendChild(this.questionDiv);
 	
-	if (currentQuestionIndex < testConfig.questions.length) {
-		displayCurrentQuestion();
-	} else {
-		nextStage();
+		const question = document.createElement("p");
+		question.classList.add("question");
+		question.innerText = currentQuestion.question;
+		this.questionDiv.appendChild(question);
+	
+		// create form for answers
+		this.answerForm = document.createElement("div");
+		this.answerForm.classList.add('answer-container');
+		this.questionDiv.appendChild(this.answerForm);
+	
+		// display answers
+		for (var answerIndex in currentQuestion.answers) {
+			var answer = currentQuestion.answers[answerIndex];
+		
+			// create elements for the answer
+			var control = document.createElement('input');
+			control.type = currentQuestion.controlType;
+			control.name = "choice"; // correlates radio buttons
+		
+			var label = document.createElement('label');
+			label.classList.add("answer");
+			label.innerText = answer.text;
+		
+			// correlate control to text
+			control.id = "answer" + answerIndex;
+			label.for = control.id;
+		
+			// insert
+			this.answerForm.appendChild(control);
+			this.answerForm.appendChild(label);
+		
+			// break
+			this.answerForm.appendChild( document.createElement('br') );
+		
+			// associate answer with view
+			answer.controlView = control;
+		}
+	
+		this.buttonDiv = document.createElement('div');
+	
+		var submitButton = this.addButton("Submit");
+		submitButton.onclick = this.evaluateResponse;
+	
+		this.tryAgainButton = this.addButton("Try again");
+		this.tryAgainButton.onclick = this.tryAgainClicked;
+		this.tryAgainButton.style.display = 'none';
+
+		this.continueButton = this.addButton("Continue");
+		this.continueButton.onclick = this.continueClicked;
+		this.continueButton.style.display = 'none';
+	
+		outerDiv.appendChild(this.buttonDiv);
+	
+		this.contentArea.appendChild(outerDiv);
 	}
-}
 
-function tryAgainClicked() {
-	console.log('tryAgainClicked');
-	overlayDiv.remove();
+	continueClicked() {
+		this.currentQuestionIndex++;
 	
-	answerForm.style.opacity = '100%';
-	
-	tryAgainButton.style.animationName = 'fadeOut';
-	tryAgainButton.style.animationDuration = '1s';
-	tryAgainButton.style.opacity = '0%';
-
-	// uncheck all items
-	var answers = testConfig.questions[currentQuestionIndex].answers;
-	for (var answerIndex in answers) {
-		answers[answerIndex].controlView.checked = false;
+		if (this.currentQuestionIndex < this.testConfig.questions.length) {
+			displayCurrentQuestion();
+		} else {
+			nextStage();
+		}
 	}
-}
 
-function addButton(label) {	
-	var button = document.createElement('button');
-	button.classList.add('test-button');
-	button.innerText = label;
-	buttonDiv.appendChild(button);
-	return button;
-}
+	tryAgainClicked() {
+		console.log('tryAgainClicked');
+		this.overlayDiv.remove();
+	
+		this.answerForm.style.opacity = '100%';
+	
+		this.tryAgainButton.style.animationName = 'fadeOut';
+		this.tryAgainButton.style.animationDuration = '1s';
+		this.tryAgainButton.style.opacity = '0%';
 
-function displayCheckOrX(check) {
-	var imageFile;
-	if (check) {
-		imageFile = './assets/checkMark.png';
-	} else {
-		imageFile = './assets/X.png';
+		// uncheck all items
+		var answers = this.testConfig.questions[this.currentQuestionIndex].answers;
+		for (var answerIndex in answers) {
+			answers[answerIndex].controlView.checked = false;
+		}
 	}
-	
-	var image = new Image();
-	image.src = imageFile;
-	image.style.animationName = 'fadeIn';
-	image.style.animationDuration = '1s';		
-	image.style.opacity = '100%';
 
- 	image.classList.add('checkOrX');
-	
-	overlayDiv = document.createElement('div');
-	overlayDiv.classList.add('overlayPanel');
-	
-	overlayDiv.appendChild(image);
-	
-	questionDiv.appendChild(overlayDiv);
-	
-	image.style.animationName = 'fadeIn';
-	image.style.animationDuration = '1s';		
-	image.style.opacity = '100%';
-}
-
-function evaluateResponse() {
-	console.log("evaluateResponse");
-	
-	var correct = true;
-	for (var answerIndex in testConfig.questions[currentQuestionIndex].answers) {
-		var currentAnswer = testConfig.questions[currentQuestionIndex].answers[answerIndex];
-		correct = correct && (currentAnswer.correctChoice === currentAnswer.controlView.checked);
-	};
-	
-	continueButton.style.display = 'none';
-	tryAgainButton.style.display = 'none';
-	
-	answerForm.style.opacity = '40%';
-	
-	if (correct) {
-		console.log("correct");
-		continueButton.style.display = 'inline';
-		continueButton.style.animationName = 'fadeIn';
-		continueButton.style.animationDuration = '1s';		
-		continueButton.style.opacity = '100%';
-	} else {
-		console.log("wrong");
-		tryAgainButton.style.display = 'inline';
-		tryAgainButton.style.animationName = 'fadeIn';
-		tryAgainButton.style.animationDuration = '1s';	
-		tryAgainButton.style.opacity = '100%';
+	addButton(label) {	
+		var button = document.createElement('button');
+		button.classList.add('test-button');
+		button.innerText = label;
+		this.buttonDiv.appendChild(button);
+		return button;
 	}
-	
-	displayCheckOrX(correct);
-}
 
-async function readTestQuestions(fileName, callback) {
-	let url = "./" + fileName;
+	displayCheckOrX(check) {
+		var imageFile;
+		if (check) {
+			imageFile = './assets/checkMark.png';
+		} else {
+			imageFile = './assets/X.png';
+		}
 	
-	let response = await fetch(url);
+		var image = new Image();
+		image.src = imageFile;
+		image.style.animationName = 'fadeIn';
+		image.style.animationDuration = '1s';		
+		image.style.opacity = '100%';
 
-	if (response.ok) {
-		testConfig = await response.json();
-	} else {
-		alert("HTTP Error while retrieving the course configuration.\n" + response.status);
+		image.classList.add('checkOrX');
+	
+		this.overlayDiv = document.createElement('div');
+		this.overlayDiv.classList.add('overlayPanel');
+	
+		this.overlayDiv.appendChild(image);
+	
+		this.questionDiv.appendChild(this.overlayDiv);
+	
+		image.style.animationName = 'fadeIn';
+		image.style.animationDuration = '1s';		
+		image.style.opacity = '100%';
 	}
+
+	evaluateResponse() {
+		console.log("evaluateResponse");
 	
-	console.log("JSON from test file:\n");
-	console.log(testConfig);
+		var correct = true;
+		for (var answerIndex in this.testConfig.questions[this.currentQuestionIndex].answers) {
+			var currentAnswer = this.testConfig.questions[this.currentQuestionIndex].answers[answerIndex];
+			correct = correct && (currentAnswer.correctChoice === currentAnswer.controlView.checked);
+		};
 	
-	callback();
-}
+		this.continueButton.style.display = 'none';
+		this.tryAgainButton.style.display = 'none';
+	
+		this.answerForm.style.opacity = '40%';
+	
+		if (correct) {
+			console.log("correct");
+			this.continueButton.style.display = 'inline';
+			this.continueButton.style.animationName = 'fadeIn';
+			this.continueButton.style.animationDuration = '1s';		
+			this.continueButton.style.opacity = '100%';
+		} else {
+			console.log("wrong");
+			this.tryAgainButton.style.display = 'inline';
+			this.tryAgainButton.style.animationName = 'fadeIn';
+			this.tryAgainButton.style.animationDuration = '1s';	
+			this.tryAgainButton.style.opacity = '100%';
+		}
+	
+		displayCheckOrX(correct);
+	}
 			
-function showResult() {
-	console.log("showResult");
+	showResult() {
+		console.log("showResult");
+	}
 }
-			
-function initializeTest(courseConfig, stage) {
-	console.log("initialize Test");
-	readTestQuestions(courseConfig.stages[ stage ].testFile, displayCurrentQuestion);
-};

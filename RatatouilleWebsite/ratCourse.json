@@ -1,11 +1,7 @@
 {
 	"title":"Ratatouille",
 	"stages":[
-	
-		{"title": "Download", "stageType":"html",
-		"htmlFile" : "download.html"
-		},
-		
+			
 		{"title": "initial Videos", "stageType":"video",
 		"videoList":[
 			{"title": "short vid 1", "fileName":"shortTestVideo.m4v", "allowContols":"false" },
