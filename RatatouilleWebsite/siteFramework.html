@@ -21,6 +21,7 @@
 			grid-template-rows: 80px 1fr;
 			grid-template-columns: 150px 1fr;
 			height: 99vh;
+			clip-path: inset(0);
 		}
 				
 		.fill-container {
@@ -205,8 +206,6 @@
   		}
   		
   		function testConfigCallback(testConfig) {
-  			console.log('testConfigCallback =================');
-  			console.log(testConfig);
   			testPlayer.testConfig = testConfig;
   			testPlayer.displayCurrentQuestion();
   		}
