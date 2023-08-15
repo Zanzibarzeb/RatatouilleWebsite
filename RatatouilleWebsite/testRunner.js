@@ -79,14 +79,14 @@ class testRunner {
 		this.buttonDiv = document.createElement('div');
 	
 		var submitButton = this.addButton("Submit");
-		submitButton.onclick = this.evaluateResponse;
+		submitButton.onclick = submitClicked;
 	
 		this.tryAgainButton = this.addButton("Try again");
-		this.tryAgainButton.onclick = this.tryAgainClicked;
+		this.tryAgainButton.onclick = tryAgainClicked;
 		this.tryAgainButton.style.display = 'none';
 
 		this.continueButton = this.addButton("Continue");
-		this.continueButton.onclick = this.continueClicked;
+		this.continueButton.onclick = continueClicked;
 		this.continueButton.style.display = 'none';
 	
 		outerDiv.appendChild(this.buttonDiv);
@@ -94,17 +94,18 @@ class testRunner {
 		this.contentArea.appendChild(outerDiv);
 	}
 
-	continueClicked() {
+	continue() {
 		this.currentQuestionIndex++;
 	
 		if (this.currentQuestionIndex < this.testConfig.questions.length) {
-			displayCurrentQuestion();
+			this.contentArea.innerHTML = '';
+			this.displayCurrentQuestion();
 		} else {
 			nextStage();
 		}
 	}
 
-	tryAgainClicked() {
+	tryAgain() {
 		console.log('tryAgainClicked');
 		this.overlayDiv.remove();
 	
@@ -126,6 +127,7 @@ class testRunner {
 		button.classList.add('test-button');
 		button.innerText = label;
 		this.buttonDiv.appendChild(button);
+		button.testController = this;
 		return button;
 	}
 
@@ -159,10 +161,17 @@ class testRunner {
 
 	evaluateResponse() {
 		console.log("evaluateResponse");
+		console.log(this);
+		console.log(this.testConfig);
+		console.log(this.testConfig.questions);
+		console.log('index = ' + this.currentQuestionIndex);
+		console.log(this.testConfig.questions[this.currentQuestionIndex].answers);
 	
 		var correct = true;
-		for (var answerIndex in this.testConfig.questions[this.currentQuestionIndex].answers) {
-			var currentAnswer = this.testConfig.questions[this.currentQuestionIndex].answers[answerIndex];
+		
+		var answers = this.testConfig.questions[this.currentQuestionIndex].answers;
+		for (var answerIndex in answers) {
+			var currentAnswer = answers[answerIndex];
 			correct = correct && (currentAnswer.correctChoice === currentAnswer.controlView.checked);
 		};
 	
@@ -185,10 +194,22 @@ class testRunner {
 			this.tryAgainButton.style.opacity = '100%';
 		}
 	
-		displayCheckOrX(correct);
+		this.displayCheckOrX(correct);
 	}
 			
 	showResult() {
 		console.log("showResult");
 	}
+}
+
+function submitClicked() {
+	this.testController.evaluateResponse();
+}
+
+function tryAgainClicked() {
+	this.testController.tryAgain();
+}
+
+function continueClicked() {
+	this.testController.continue();
 }
