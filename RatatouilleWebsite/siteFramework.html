@@ -104,10 +104,14 @@
 	<script src="./videoPlayer.js" type="text/javascript">
 	</script>
 	
+	<script src="./customHTML.js" type="text/javascript">
+	</script>
+	
   	<script type="text/javascript">
   		"use strict";
   		
   		var videoPlayer;
+  		var customController;
   		
   		function nextStage() {
   			stageNumber++;
@@ -134,6 +138,8 @@
 				videoPlayer.playVideoFromStage(stage,substage);
 			} else if (stageConfig.stageType == 'test') {
 				initializeTest(courseConfig, stage);
+			} else if (stageConfig.stageType == 'html') {
+				customController = new customHTMLController(courseConfig, stage);
 			}
 			
 			setSubStage(substage);
