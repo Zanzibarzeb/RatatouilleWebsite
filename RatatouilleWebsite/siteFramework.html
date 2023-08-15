@@ -184,10 +184,9 @@
 			stageNumber = stage;
 			
 			var newFrame = makeNextFrame();
-			// if (currentFrame != null) {
-// 				contentArea.removeChild(currentFrame);
-// 			}
+
   			contentArea.appendChild(newFrame);
+  			oldFrame = currentFrame;
   			currentFrame = newFrame;
 			
 			if (stageConfig.stageType == 'video') {
@@ -199,7 +198,7 @@
 				readTestFromFile(stageConfig.testFile, testConfigCallback);
 
 			} else if (stageConfig.stageType == 'html') {
-				customController = new customHTMLController(courseConfig, stage);
+				customController = new customHTMLController(courseConfig, stage, currentFrame);
 			}
 			
 			setSubStage(substage);

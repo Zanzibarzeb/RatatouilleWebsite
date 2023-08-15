@@ -11,6 +11,10 @@
 		
 		{"title": "Test test", "stageType":"test",
 		"testFile":"testTest.json"
+		},
+		
+		{"title": "Download", "stageType":"html",
+		"htmlFile": "download.html"
 		}
 	]
 }
