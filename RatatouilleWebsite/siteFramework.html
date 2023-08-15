@@ -15,35 +15,30 @@
 	
 	<style type="text/css">
 		
-		.header-and-body {
+		
+		.mainGrid {
 			display: grid;
 			grid-template-rows: 80px 1fr;
-/* 
-			background-color: lightblue;
- */
-			width: 100%;
-			height: 100vh;
-			margin: 50;
+			grid-template-columns: 150px 1fr;
 		}
-		
-		.sidebar-and-content {
-			display: grid;
-			grid-template-columns: minmax(100px, 200px) 1fr;
-/* 			background-color: pink; */
-		}
-		
+				
 		.fill-container {
-			height:100%;
-			width:100%;
-			object-fit:contain;
+			height: 100%;
+			width: 100%;
+			object-fit: contain;
+/* 
+			clip-path: inset(0);
+ */
 		}
 		
 		.main-header {
 			display: flex;
+			align-items: center;
 			position: relative;
-			height:100%;
-			width:100%;
-			object-fit:contain;
+			height: 100%;
+			width: 100%;
+			object-fit: contain;
+			background-color: red;
 		}
 		
 		.logo {
@@ -60,7 +55,6 @@
 		
 		.course-title {
 			text-align: center;
-			width: 100%;
 			font-family: Arial, sans-serif;
 			font-size: 50px;
 		}
@@ -71,25 +65,28 @@
 
 <body onload="initialize();" style="margin:0;">
 
-	<div id="wholeWindow" class="header-and-body">
-		<div id='header' class="main-header">
-			<image id='logo' class = 'logo'
+	<div id="wholeWindow" class="mainGrid">
+		<div id='notARecipeLogo' class='fill-container'>
+			<image id='logo' class='fill-container'
 				src="./assets/Logo.png"/>
-			<p id="courseTitle"></p>
 		</div>
 		
-		<div id='sideBarAndContent' class='sidebar-and-content'>
-			<div class='fill-container'
-				id='sideBar'
-				style='min-width=200; clip-path:inset(0);'>
-				<ul id="tableOfContents" class="fill-container sidebar-field"/>
-			</div>
-		
-			<div class='fill-container'
-				id='contentArea'
-				position='relative'>
-			</div>
+		<div id="header" class='main-header'>
+			<p id="courseTitle"
+				class = "course-title fill-container">
+			</p>
 		</div>
+		
+		<div class='fill-container'
+			id='sideBar'
+			style='min-width=200; clip-path:inset(0);'>
+			<ul id="tableOfContents" class="fill-container sidebar-field"/>
+		</div>
+	
+		<div class='fill-container'
+			id='contentArea'
+			position='relative'>
+		</div>	
 	</div>
 
 	<script src="./configReader.js" type="text/javascript">
@@ -148,6 +145,8 @@
   		function playStage() {
   			playSubstage(stageNumber, 0);
   		}
+  		
+  		// **** initialization ****
  
 		function configReadCallback(courseConfig) {
 			console.log("configReadCallback");
@@ -155,8 +154,9 @@
 			setCurrentItem(stageNumber, 0);
 			
 			var titleElement = document.getElementById("courseTitle");
+			console.log('titleElement: ' + titleElement)
+			console.log('text content: ' + titleElement.innerText);
 			titleElement.innerText = courseConfig.title;
-			titleElement.classList.add('course-title');
 			
 			videoPlayer = new videoController(courseConfig, stageNumber);
 			console.log('********* videoPlayer');
