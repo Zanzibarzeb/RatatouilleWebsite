@@ -3,7 +3,7 @@
 
 function onendedHandler(event) {
 	console.log("onendedHandler\n");
-	this.videoController.goToNext();
+	nextStage();
 }
 
 function videoLoadedHandler(event) {
@@ -18,22 +18,14 @@ function playClicked() {
 
 class videoController {
 
-	constructor(courseConfig, stageNumber, contentArea = null) {
+	constructor(courseConfig, stageNumber, contentArea) {
 		console.log("initialize video player");
 		console.log('content area: ' + contentArea);
 		
-		if (contentArea == null) {
-			this.contentArea = document.getElementById("contentArea");
-		} else {
-			this.contentArea = contentArea;
-		}
-		
-		
+		this.contentArea = contentArea;		
 		this.courseConfig = courseConfig;
 		this.stageNumber = stageNumber;
-		
-		this.contentArea.innerHTML = '';
-		
+				
 		this.currentVideoIndex = 0;
 	
 		var outerDiv = document.createElement('div');
@@ -74,38 +66,20 @@ class videoController {
 		this.contentArea.appendChild(outerDiv);
 	}
 
-	playVideoFromStage(stageNumber, videoNumber) {
+	playVideoFromStage(stageNumber) {
 		console.log("\n\n***********play video\n\n");
 	
-		this.currentVideoIndex = videoNumber;
 		this.stageNumber = stageNumber;
 		
 		console.log(this.courseConfig);
 		console.log(this.stageNumber);
-		console.log(this.currentVideoIndex);
 	
 		// get the video file name
-		var videoFileName = this.courseConfig.stages[ stageNumber ].videoList[ videoNumber ].fileName;
+		var videoFileName = this.courseConfig.stages[ stageNumber ].fileName;
 		this.videoFrame.setAttribute("src", "./" + videoFileName);
 	}
 	
-	// event handling
-	goToNext() {
-		this.currentVideoIndex++;	
-
-		console.log('goToNext');
-		console.log(this.courseConfig);
-		console.log(this.stageNumber);
-		if (this.currentVideoIndex >= this.courseConfig.stages[ this.stageNumber ].videoList.length) {
-			console.log('done videos....');
-			nextStage();
-		} else {
-			this.videoFrame.pause();
-			this.playVideoFromStage(this.stageNumber, this.currentVideoIndex);
-			setSubStage(this.currentVideoIndex);
-		}
-	}
-	
+	// event handling	
 	playVideo() {
 		this.videoFrame.play();
 	}

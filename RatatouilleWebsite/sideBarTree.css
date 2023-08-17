@@ -20,7 +20,7 @@
 
 /* Hide the nested list */
 .nested {
-  display: none;
+  display: block;
 }
 
 /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
@@ -35,4 +35,8 @@
 .treeItem {
 	font-family: Arial, sans-serif;
 	font-size: 18px;
+}
+
+.mainTreeUL {
+	background-color: lightyellow;
 }

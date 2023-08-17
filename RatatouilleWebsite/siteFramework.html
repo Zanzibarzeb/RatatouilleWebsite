@@ -72,6 +72,10 @@
  */
 		}
 		
+		.sideBarArea {
+			background-color: pink;
+		}
+		
 		@keyframes contentSlideInFromRight {
 			from {
 				left: 100%;
@@ -126,10 +130,9 @@
 			</p>
 		</div>
 		
-		<div class='fill-container'
-			id='sideBar'
+		<div class='fill-container sideBarArea'
+			id='sideBarArea'
 			style='min-width=200; clip-path:inset(0);'>
-			<ul id="tableOfContents" class="fill-container sidebar-field"/>
 		</div>
 	
 		<div class='fill-container contentArea'
@@ -140,7 +143,7 @@
 	<script src="./configReader.js" type="text/javascript">
 	</script>
 	
-	<script src="./sideBarTreeInit.js" type="text/javascript">
+	<script src="./sideBarTree.js" type="text/javascript">
 	</script>
 	
 	<script src="./testRunner.js" type="text/javascript">
@@ -158,6 +161,11 @@
   		var videoPlayer;
   		var testPlayer;
   		var customController;
+  		var sideBarController;
+		var courseConfig;
+		var stageNumber = 0;
+		var testConfig;
+  		
   		var contentArea = document.getElementById('contentArea');
   		var currentFrame = null;
   		var oldFrame = null;
@@ -167,52 +175,43 @@
   			
   			if (stageNumber < courseConfig.stages.length) {
   				// start the next stage
-  				playStage();
-  				setCurrentItem(stageNumber, 0);
+  				playStage(stageNumber);
   			}
   		}
-   		
-  		function setSubStage(substage) {
-  			setCurrentItem(stageNumber, substage);
-  		}
- 		
-  		function playSubstage(stage, substage) {
-  			console.log('playSubstage');
-  			console.log('content area: ' + contentArea);
-			var stageConfig = courseConfig.stages[stage];
+   		 		
+  		function playStage(newStageNumber) {
+  		
+  			stageNumber = newStageNumber;
+			var stage = courseConfig.stages[stageNumber];
 			
-			stageNumber = stage;
+			console.log('play stage: ' + stageNumber);
 			
-			var newFrame = makeNextFrame();
-
-  			contentArea.appendChild(newFrame);
-  			oldFrame = currentFrame;
-  			currentFrame = newFrame;
+// 			console.log('courseConfig' + JSON.stringify(courseConfig, null, "    "));
+// 			console.log('stage: ' + JSON.stringify(stage, null, "    "));
+						
+			makeNextFrame();
 			
-			if (stageConfig.stageType == 'video') {
+			if (stage.stageType == 'video') {
 				videoPlayer = new videoController(courseConfig, stageNumber, currentFrame);
-				videoPlayer.playVideoFromStage(stage, substage);
+				videoPlayer.playVideoFromStage(stageNumber);
 				
-			} else if (stageConfig.stageType == 'test') {
-				testPlayer = new testRunner(courseConfig, stageNumber, currentFrame);
-				readTestFromFile(stageConfig.testFile, testConfigCallback);
+			} else if (stage.stageType == 'test') {
+				testPlayer = new testRunner(currentFrame);
+				readTestFromFile(stage.testFile, testConfigCallback);
 
-			} else if (stageConfig.stageType == 'html') {
-				customController = new customHTMLController(courseConfig, stage, currentFrame);
+			} else if (stage.stageType == 'html') {
+				customController = new customHTMLController(courseConfig, stageNumber, currentFrame);
 			}
 			
-			setSubStage(substage);
+			// update sidebar tree
+			sideBarController.setCurrentItem(stageNumber);
   		}
   		
   		function testConfigCallback(testConfig) {
   			testPlayer.testConfig = testConfig;
   			testPlayer.displayCurrentQuestion();
   		}
-  		
-  		function playStage() {
-  			playSubstage(stageNumber, 0);
-  		}
-  		
+  		  		
   		function makeNextFrame(left = false) {
   			console.log('makeNextFrame');
   			
@@ -229,7 +228,10 @@
 				currentFrame.addEventListener('animationend', oldFrameGone);
 				oldFrame = currentFrame;
 			}
-  			
+			
+  			currentFrame = newFrame;
+  			contentArea.appendChild(newFrame);
+
   			return newFrame;
   		}
   		
@@ -242,13 +244,16 @@
  
 		function configReadCallback(courseConfig) {
 			console.log("configReadCallback");
-			initTOC(courseConfig);
-			setCurrentItem(stageNumber, 0);
+			
+			var sideBarArea = document.getElementById('sideBarArea');
+			console.log('sideBarArea = ' + sideBarArea);
+			sideBarController = new sideBarTree(courseConfig, sideBarArea);
+			sideBarController.setCurrentItem(stageNumber, 0);
 			
 			var titleElement = document.getElementById("courseTitle");
 			titleElement.innerText = courseConfig.title;
 						
-  			playStage();
+  			playStage(0);
 		}
 					
 		function initialize() {

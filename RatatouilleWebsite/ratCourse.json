@@ -1,20 +1,27 @@
 {
 	"title":"Ratatouille",
 	"stages":[
+				
+		{"title": "Introduction", "stageType":"section",
+		"level": 0
+		},
+
+			{"title": "short vid 1", "stageType":"video", 
+			"level": 1,
+			"fileName":"shortTestVideo.m4v", "allowContols":"false" },
 			
-		{"title": "initial Videos", "stageType":"video",
-		"videoList":[
-			{"title": "short vid 1", "fileName":"shortTestVideo.m4v", "allowContols":"false" },
-			{"title": "short vid 2", "fileName":"shortTestVideo.m4v", "allowContols":"false" }
-			]
-		},
+			{"title": "short vid 2", "stageType":"video", 
+			"level": 1,
+			"fileName":"shortTestVideo.m4v", "allowContols":"false" },
 		
-		{"title": "Test test", "stageType":"test",
-		"testFile":"testTest.json"
-		},
+			{"title": "Intro test", "stageType":"test",
+			"level": 1,
+			"testFile":"testTest.json"
+			},
 		
-		{"title": "Download", "stageType":"html",
-		"htmlFile": "download.html"
-		}
+			{"title": "Download", "stageType":"html",
+			"level": 1,
+			"htmlFile": "download.html"
+			}
 	]
 }

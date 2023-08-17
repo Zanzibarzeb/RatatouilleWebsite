@@ -2,9 +2,7 @@
 
 class testRunner {
 
-	constructor (courseConfig, stageNumber, contentArea) {
-		this.courseConfig = courseConfig;
-		this.stageNumber = stageNumber;
+	constructor (contentArea) {
 		this.contentArea = contentArea;
 
 		this.currentQuestionIndex = 0;
@@ -15,9 +13,7 @@ class testRunner {
 		this.overlayDiv = null;
 		this.tryAgainButton = null;
 		this.continueButton = null;
-		
-		// find and read the test file
-		var fileName = this.courseConfig.stages[ this.stageNumber ].testFile;
+		this.testConfig = null; // set from framework
 	}
 	
 	/******
