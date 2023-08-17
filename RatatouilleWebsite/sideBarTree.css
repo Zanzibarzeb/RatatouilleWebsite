@@ -20,7 +20,7 @@
 
 /* Hide the nested list */
 .nested {
-  display: block;
+  display: none;
 }
 
 /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
@@ -33,6 +33,8 @@
 }
 
 .treeItem {
+	cursor: pointer;
+	user-select: none; /* Prevent text selection */
 	font-family: Arial, sans-serif;
 	font-size: 18px;
 }

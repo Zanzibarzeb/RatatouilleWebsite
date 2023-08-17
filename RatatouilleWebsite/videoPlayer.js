@@ -65,6 +65,9 @@ class videoController {
 
 		this.contentArea.appendChild(outerDiv);
 	}
+	
+	cleanup() {
+	}
 
 	playVideoFromStage(stageNumber) {
 		console.log("\n\n***********play video\n\n");

@@ -168,6 +168,7 @@
   		
   		var contentArea = document.getElementById('contentArea');
   		var currentFrame = null;
+  		var currentController = null;
   		var oldFrame = null;
   		
   		function nextStage() {
@@ -188,21 +189,29 @@
 			
 			makeNextFrame();
 			
+			if (currentController != null) {
+				currentController.cleanup();
+			}
+			
 			if (stage.stageType == 'video') {
 				videoPlayer = new videoController(courseConfig, stageNumber, currentFrame);
 				videoPlayer.playVideoFromStage(stageNumber);
+				currentController = videoPlayer;
 				
 			} else if (stage.stageType == 'test') {
 				testPlayer = new testRunner(currentFrame);
 				readTestFromFile(stage.testFile, testConfigCallback);
+				testPlayer = testPlayer;
 
 			} else if (stage.stageType == 'html') {
 				customController = new customHTMLController(courseConfig, stageNumber, currentFrame);
+				currentController = customController;
 				
 			} else if (stage.stageType == 'section') {
 				customController = new customHTMLController(courseConfig, stageNumber, currentFrame);
 				window.courseConfig = courseConfig;
 				window.stageNumber = stageNumber;
+				currentController = customController;
 			}
 			
 			// update sidebar tree

@@ -4,17 +4,14 @@
 				
 		{"title": "Introduction", "stageType":"section",
 		"level": 0,
+		"timeout": 4000,
 		"htmlFile": "sectionPage.html"
 		},
 
 			{"title": "short vid 1", "stageType":"video", 
 			"level": 1,
 			"fileName":"shortTestVideo.m4v", "allowContols":"false" },
-			
-			{"title": "short vid 2", "stageType":"video", 
-			"level": 1,
-			"fileName":"shortTestVideo.m4v", "allowContols":"false" },
-		
+					
 			{"title": "Intro test", "stageType":"test",
 			"level": 1,
 			"testFile":"testTest.json"

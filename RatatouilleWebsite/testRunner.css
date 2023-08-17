@@ -25,6 +25,7 @@
 
 .test-button {
 	margin: 10px;
+	cursor: pointer;
 }
 
 .button-container {

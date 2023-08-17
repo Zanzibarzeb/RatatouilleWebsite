@@ -10,7 +10,10 @@ class customHTMLController {
 		
 		this.contentArea.innerHTML = '';
 		
-		var fileName = this.courseConfig.stages[ this.stageNumber ].htmlFile;
+		var stage = this.courseConfig.stages[ this.stageNumber ];
+		var fileName = stage.htmlFile;
+		var timeout = stage.timeout;
+
 		
 		// append url parms
 		const queryString = window.location.search;
@@ -28,10 +31,25 @@ class customHTMLController {
 		
 		this.contentArea.appendChild(iframe);
 		
-		setTimeout(function () {
-			console.log('section timeout');
-			nextStage();
-		},
-		4000);
+		if (timeout != null) {
+			this.timerId = setTimeout(
+							function () {
+								console.log('section timeout');
+				
+								if (this.contentArea.parentElement != null) {
+									if (this.contentArea.parentElement.contains(contentArea)) {
+										nextStage();
+									}
+								}
+							},
+						timeout);
+						}
 	}
+		
+	cleanup() {
+		if (this.timerId != null) {
+			clearTimeout(this.timerId);
+		}
+	}
+
 }

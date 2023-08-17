@@ -16,6 +16,9 @@ class testRunner {
 		this.testConfig = null; // set from framework
 	}
 	
+	cleanup() {
+	}
+	
 	/******
 	 Display the question on the screen with appropriate buttons
 	*******/
