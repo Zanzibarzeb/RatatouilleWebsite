@@ -12,6 +12,13 @@ class customHTMLController {
 		
 		var fileName = this.courseConfig.stages[ this.stageNumber ].htmlFile;
 		
+		// append url parms
+		const queryString = window.location.search;
+		const urlParms = new URLSearchParams(queryString);
+		const configFileName = urlParms.get("config");
+		
+		fileName += '?' + 'config=' + configFileName + '&' + "stage=" + this.stageNumber;
+		
 		console.log(fileName);
 		
 		var iframe = document.createElement('iframe');
@@ -20,5 +27,11 @@ class customHTMLController {
 		iframe.style.width = "100%";
 		
 		this.contentArea.appendChild(iframe);
+		
+		setTimeout(function () {
+			console.log('section timeout');
+			nextStage();
+		},
+		4000);
 	}
 }

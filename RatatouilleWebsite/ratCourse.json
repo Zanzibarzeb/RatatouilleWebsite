@@ -3,7 +3,8 @@
 	"stages":[
 				
 		{"title": "Introduction", "stageType":"section",
-		"level": 0
+		"level": 0,
+		"htmlFile": "sectionPage.html"
 		},
 
 			{"title": "short vid 1", "stageType":"video", 

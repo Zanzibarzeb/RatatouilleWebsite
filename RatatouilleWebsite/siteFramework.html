@@ -186,9 +186,6 @@
 			
 			console.log('play stage: ' + stageNumber);
 			
-// 			console.log('courseConfig' + JSON.stringify(courseConfig, null, "    "));
-// 			console.log('stage: ' + JSON.stringify(stage, null, "    "));
-						
 			makeNextFrame();
 			
 			if (stage.stageType == 'video') {
@@ -201,6 +198,11 @@
 
 			} else if (stage.stageType == 'html') {
 				customController = new customHTMLController(courseConfig, stageNumber, currentFrame);
+				
+			} else if (stage.stageType == 'section') {
+				customController = new customHTMLController(courseConfig, stageNumber, currentFrame);
+				window.courseConfig = courseConfig;
+				window.stageNumber = stageNumber;
 			}
 			
 			// update sidebar tree
