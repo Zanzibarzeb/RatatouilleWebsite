@@ -1,0 +1,51 @@
+
+<style>
+	.sectionBackground {
+		display: flex;
+		background-color: lightBlue;
+		height: 100%;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		justify-content: center;
+		align-items: center;
+
+	}
+	.sectionHeading {
+		font-family: Arial, sans-serif;
+		font-size: 50px;
+	}
+	
+</style>
+
+<div class="sectionBackground">
+
+	<p id='sectionHeading' class="sectionHeading">
+	</p>
+</div>
+
+<script src="./configReader.js" type="text/javascript">
+</script>
+
+<script>
+
+	var courseConfig;
+	var stageNumber;
+	
+	readConfigFromQueryString(configReadCallback);
+	
+	
+	function configReadCallback() {
+		var headingElement = document.getElementById('sectionHeading');
+		console.log('section course config' + JSON.stringify(courseConfig, null, "   "));
+	
+		headingElement.innerText = courseConfig.stages[ stageNumber ].title;
+		
+		// setTimeout(function () {
+// 			console.log('section timeout');
+// 			//nextStage();
+// 		},
+// 		4000);
+	}
+	
+</script>
